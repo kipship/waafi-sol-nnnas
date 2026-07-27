@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WAAFI Loan Application</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial; background: #f0f2f5; padding: 15px; margin: 0; font-size: 18px; }
+    .card { background: white; max-width: 600px; margin: auto; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+    .logo { font-size: 50px; font-weight: bold; color: #002F6C; margin-bottom: 10px; }
+    .subtitle { color: #777; margin-bottom: 25px; font-size: 20px; }
+    h2 { font-size: 28px; color:#002F6C; }
+    p { font-size: 18px; line-height: 1.5; }
+    label { font-weight: bold; display: block; margin-top: 20px; margin-bottom: 8px; text-align: left; font-size: 20px; }
+    input, select, textarea { width: 100%; padding: 16px; border: 2px solid #ddd; border-radius: 12px; box-sizing: border-box; margin-bottom: 15px; font-size: 18px; }
+    .btn { width: 100%; padding: 18px; background: linear-gradient(90deg,#B4FF00,#32d296); border: none; border-radius: 15px; color: white; font-weight: bold; font-size: 22px; margin-top: 20px; cursor: pointer; }
+    .btn-dark { background: #002F6C; }
+    .progress { display:flex; gap:8px; margin:20px 0; }
+    .progress-bar { flex:1; height:10px; background:#eee; border-radius:10px; }
+    .progress-bar.active { background:linear-gradient(90deg,#B4FF00,#32d296); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    
+    <!-- HOMEPAGE -->
+    <div id="homepage">
+      <div class="logo">WAAFI</div>
+      <p class="subtitle">Financial Solutions for You</p>
+      <img src="https://via.placeholder.com/300x200.png?text=WAAFI+Loan" style="width:100%; border-radius:15px; margin-bottom:20px;">
+      <h2>Easy Loan Application</h2>
+      <p>Get your loan approved in 24 hours. Quick, Easy, and Secure.</p>
+      <button class="btn" onclick="goToStep1()">APPLY NOW</button>
+    </div>
+
+    <!-- STEP 1 -->
+    <div id="step1" style="display:none; text-align:left;">
+      <h2 style="text-align:center;">Codsiga Amaahda</h2>
+      <p style="text-align:center; color:#777;">Step 1 of 3</p>
+      <div class="progress"><div class="progress-bar active"></div><div class="progress-bar"></div><div class="progress-bar"></div></div>
+      <label>Loan Type</label>
+      <select><option>Personal Loan</option><option>Business Loan</option></select>
+      <label>Loan Amount ($)</label>
+      <input type="number" placeholder="500">
+      <label>What will you use the loan for?</label>
+      <textarea rows="3" placeholder="Business, School fees..."></textarea>
+      <button class="btn" type="button" onclick="goToStep2()">NEXT STEP →</button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step2" style="display:none; text-align:left;">
+      <h2 style="text-align:center;">Macluumaadkaaga</h2>
+      <p style="text-align:center; color:#777;">Step 2 of 3</p>
+      <div class="progress"><div class="progress-bar active"></div><div class="progress-bar active"></div><div class="progress-bar"></div></div>
+      <label>Full Name</label>
+      <input type="text" placeholder="Your Name">
+      <label>Phone Number</label>
+      <input type="tel" placeholder="07XX XXX">
+      <label>ID Number</label>
+      <input type="text" placeholder="Your ID">
+      <button class="btn" type="button" onclick="goToStep3()">NEXT STEP →</button>
+    </div>
+
+    <!-- STEP 3 -->
+    <div id="step3" style="display:none;">
+      <h2 style="text-align:center;">Xaqiiji Codsiga</h2>
+      <p style="text-align:center; color:#777;">Step 3 of 3</p>
+      <div class="progress"><div class="progress-bar active"></div><div class="progress-bar active"></div><div class="progress-bar active"></div></div>
+      <p style="font-size:22px;">Mahadsanid! Codsigaaga waanu helnay.</p>
+      <p>We will contact you within 24 hours.</p>
+      <button class="btn btn-dark" type="button" onclick="alert('Submitted!')">SUBMIT APPLICATION</button>
+    </div>
+
+  </div>
+
+<script>
+function goToStep1() {
+  document.getElementById('homepage').style.display = 'none';
+  document.getElementById('step1').style.display = 'block';
+}
+function goToStep2() {
+  document.getElementById('step1').style.display = 'none';
+  document.getElementById('step2').style.display = 'block';
+}
+function goToStep3() {
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step3').style.display = 'block';
+}
+</script>
+</body>
+</html>
