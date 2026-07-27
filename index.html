@@ -1,28 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="so">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Waafi - Fast Loan</title>
+<title>Waafi - Amaah Deg Deg ah</title>
 <style>
 body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
-.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; display:flex; justify-content:space-between; align-items:center; }
-.header h1 { margin:0; font-size:22px; }
+.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; display:flex; justify-content:space-between; align-items:center; font-weight:bold; font-size:20px; }
 .container { padding:20px; max-width:600px; margin:auto; }
-.card { background:white; padding:25px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); text-align:center; }
-.card h2 { margin:0 0 10px 0; }
-.card p { color:#666; }
-.btn { width:100%; padding:16px; border:none; border-radius:8px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin-top:20px; }
+.card { background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); text-align:center; margin-bottom:15px; }
+.card h2 { margin:0 0 8px 0; }
+.card p { color:#666; font-size:14px; }
+.calculator { background:#f9f9f9; padding:20px; border-radius:12px; margin:20px 0; text-align:left; }
+.calculator h3 { margin-top:0; }
+.row { display:flex; justify-content:space-between; align-items:center; margin:15px 0; }
+.row span.green { color:#00B347; font-weight:bold; font-size:18px; }
+input[type=range] { width:100%; accent-color:#00B347; }
+.labels { display:flex; justify-content:space-between; font-size:12px; color:#888; }
+.monthly { background:white; padding:15px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; margin-top:15px; border:1px solid #eee; }
+.monthly span.green { color:#00B347; font-weight:bold; font-size:20px; }
+.btn { width:100%; padding:16px; border:none; border-radius:8px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin:20px 0; }
+.feature { display:flex; align-items:center; gap:15px; margin:15px 0; }
+.feature .icon { font-size:28px; }
 </style>
 </head>
 <body>
-<div class="header"><div>← Back</div><h1>Enough</h1><div>☰</div></div>
+<div class="header"><div>Waafi</div><div>☰</div></div>
+
 <div class="container">
   <div class="card">
-    <h2>Hel Amaah Deg Deg ah</h2>
+    <h2>Hel Amaah Deg ah</h2>
     <p>Ansixid degdeg ah • Qiimo tartan ah • Muddooyin dabacsan</p>
-    <button class="btn" onclick="window.location.href='step1.html'">CODSO HADDA</button>
   </div>
+
+  <div class="calculator">
+    <h3>Xisaabinta Amaahda</h3>
+    
+    <div class="row">
+      <span>Qaddarka Amaahda</span>
+      <span class="green" id="amount">$1,000</span>
+    </div>
+    <input type="range" id="loanAmount" min="100" max="5000" value="1000" step="100" oninput="calculate()">
+    <div class="labels"><span>$100</span><span>$5,000</span></div>
+
+    <div class="row" style="margin-top:20px;">
+      <span>Muddada Amaahda</span>
+      <span class="green" id="months">12 bilood</span>
+    </div>
+    <input type="range" id="loanMonths" min="6" max="60" value="12" step="6" oninput="calculate()">
+    <div class="labels"><span>6 bilood</span><span>60 bilood</span></div>
+
+    <div class="monthly">
+      <span>Lacagta Bisha</span>
+      <span class="green" id="monthly">$98.33</span>
+    </div>
+  </div>
+
+  <button class="btn" onclick="window.location.href='step1.html'">CODSO HADDA</button>
+
+  <div class="feature">
+    <div class="icon">⚡</div>
+    <div><b>Ansixid Degdeg ah</b><br><span style="color:#888;">24 saac gudahood</span></div>
+  </div>
+  <div class="feature">
+    <div class="icon">💰</div>
+    <div><b>Qiimo Yar</b><br><span style="color:#888;">Laga bilaabo 18%</span></div>
+  </div>
+
 </div>
+
+<script>
+function calculate() {
+  const amount = parseInt(document.getElementById('loanAmount').value);
+  const months = parseInt(document.getElementById('loanMonths').value);
+  const rate = 0.18; // 18% interest
+  
+  document.getElementById('amount').innerText = '$' + amount.toLocaleString();
+  document.getElementById('months').innerText = months + ' bilood';
+  
+  // Simple monthly payment calculation
+  const monthly = (amount * (1 + rate)) / months;
+  document.getElementById('monthly').innerText = '$' + monthly.toFixed(2);
+}
+calculate(); // run on load
+</script>
 </body>
 </html>
