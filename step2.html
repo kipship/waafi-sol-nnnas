@@ -1,51 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Step 2 - Waafi</title>
 <style>
 body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
-.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; display:flex; justify-content:space-between; align-items:center; }
+.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; display:flex; justify-content:space-between; align-items:center; font-weight:bold; }
 .container { padding:20px; max-width:600px; margin:auto; }
 .card { background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-h2 { text-align:center; margin:0; }
-.step { text-align:center; color:#888; margin-bottom:15px; }
-.progress { display:flex; gap:5px; margin-bottom:20px; }
-.bar { flex:1; height:6px; background:#ddd; border-radius:5px; }
-.bar.active { background: linear-gradient(90deg, #a8e063, #00B347); }
 label { display:block; margin:15px 0 5px 0; font-weight:bold; }
 input { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; }
-.phone { display:flex; gap:10px; }
-.phone span { padding:12px; background:#eee; border-radius:8px; }
 .btn { width:100%; padding:16px; border:none; border-radius:8px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin-top:20px; }
-.btn.gray { background:#ccc; color:#333; }
 </style>
 </head>
 <body>
-<div class="header"><div>← Back</div><h1>Enough</h1><div>☰</div></div>
-<div class="container">
-  <div class="card">
-    <h2>Loan Application</h2>
-    <div class="step">Step 2 of 3</div>
-    <div class="progress"><div class="bar active"></div><div class="bar active"></div><div class="bar"></div></div>
-    
-    <label>First Name</label>
-    <input type="text" placeholder="Ahmed">
-    
-    <label>Last Name</label>
-    <input type="text" placeholder="Hassan">
-    
-    <label>Email Address</label>
-    <input type="email" placeholder="ahmed.hassan@example.com">
-    
-    <label>Phone Number</label>
-    <div class="phone"><span>+252</span><input type="text" placeholder="612345678"></div>
-    <small>Enter 9 digits (example: 612345678 or 907654321)</small>
-    
-    <button class="btn gray">SO THAT</button>
-    <button class="btn" onclick="window.location.href='step3.html'">NEXT STEP</button>
-  </div>
-</div>
+<div class="header"><div>← Back</div><div>Waafi</div><div>☰</div></div>
+<div class="container"><div class="card">
+<h2>Step 2 of 3</h2>
+<label>First Name</label><input id="fname" placeholder="Ahmed">
+<label>Last Name</label><input id="lname" placeholder="Mohamed">
+<label>Email</label><input id="email" type="email" placeholder="ahmed@gmail.com">
+<label>Phone Number</label><input id="phone" type="number" placeholder="61xxxxxxx">
+<button class="btn" onclick="next()">NEXT</button>
+</div></div>
+<script>
+function next() {
+  localStorage.setItem('fname', document.getElementById('fname').value);
+  localStorage.setItem('lname', document.getElementById('lname').value);
+  localStorage.setItem('email', document.getElementById('email').value);
+  localStorage.setItem('phone', document.getElementById('phone').value);
+  window.location.href='step3.html';
+}
+</script>
 </body>
 </html>
