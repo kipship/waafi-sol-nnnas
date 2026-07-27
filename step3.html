@@ -3,70 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Application Submitted - WAAFI</title>
+<title>Step 3 - Waafi</title>
 <style>
-body { 
-  font-family: Arial, sans-serif; 
-  background: #f5f5f5; 
-  margin: 0; 
-  padding: 20px; 
-  text-align: center;
-}
-.container { 
-  max-width: 500px; 
-  margin: 50px auto; 
-  background: white; 
-  padding: 40px 20px; 
-  border-radius: 10px; 
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-.logo { 
-  font-size: 32px; 
-  font-weight: bold; 
-  color: #009639; 
-  margin-bottom: 20px; 
-}
-.checkmark {
-  font-size: 60px;
-  color: #009639;
-  margin-bottom: 15px;
-}
-h2 { 
-  color: #009639; 
-  margin-bottom: 10px;
-}
-p {
-  color: #555;
-  font-size: 16px;
-  line-height: 1.6;
-}
-.btn { 
-  padding: 16px 30px; 
-  border: none; 
-  border-radius: 5px; 
-  font-size: 16px; 
-  font-weight: bold;
-  background: #009639; 
-  color: white; 
-  cursor: pointer; 
-  margin-top: 25px; 
-}
-.btn:hover {
-  background: #00B347;
-}
+body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
+.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; display:flex; justify-content:space-between; align-items:center; }
+.container { padding:20px; max-width:600px; margin:auto; }
+.card { background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+h2 { text-align:center; margin:0; }
+.step { text-align:center; color:#888; margin-bottom:15px; }
+.progress { display:flex; gap:5px; margin-bottom:20px; }
+.bar { flex:1; height:6px; background:#ddd; border-radius:5px; }
+.bar.active { background: linear-gradient(90deg, #a8e063, #00B347); }
+label { display:block; margin:15px 0 5px 0; font-weight:bold; }
+input, select { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; }
+.summary { background:#f9f9f9; padding:15px; border-radius:8px; border-left:4px solid #00B347; margin-top:20px; }
+.row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee; }
+.btn { width:100%; padding:16px; border:none; border-radius:8px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin-top:15px; }
+.btn.gray { background:#ccc; color:#333; }
 </style>
 </head>
 <body>
+<div class="header"><div>← Back</div><h1>Enough</h1><div>☰</div></div>
 <div class="container">
-  <div class="logo">WAAFI</div>
-  
-  <div class="checkmark">✓</div>
-  
-  <h2>Application Submitted!</h2>
-  <p>Thank you for applying with WAAFI.</p>
-  <p>We have received your details and our team will contact you within 24-48 hours.</p>
-  
-  <button class="btn" onclick="window.location.href='index.html'">GO HOME</button>
+  <div class="card">
+    <h2>Loan Application</h2>
+    <div class="step">Step 3 of 3</div>
+    <div class="progress"><div class="bar active"></div><div class="bar active"></div><div class="bar active"></div></div>
+    
+    <label>Work Status</label>
+    <select><option>Employee</option><option>Self Employed</option></select>
+    
+    <label>Annual Income ($)</label>
+    <input type="number" placeholder="25,000">
+    
+    <div class="summary">
+      <h3>Application Summary</h3>
+      <div class="row"><span>Loan Amount:</span><span>$1,000</span></div>
+      <div class="row"><span>Loan Period:</span><span>12 Months</span></div>
+      <div class="row"><span>Purpose:</span><span>Business</span></div>
+      <div class="row"><span>Applicant:</span><span>Ahmed Hassan</span></div>
+    </div>
+    
+    <button class="btn gray">SO THAT</button>
+    <button class="btn" onclick="alert('Application Sent!')">SEND REQUEST</button>
+  </div>
 </div>
 </body>
 </html>
