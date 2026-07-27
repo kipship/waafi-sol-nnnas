@@ -1,70 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WAAFI - Loan Details</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Arial', sans-serif; background: #f5f5f5; }
-    .container { max-width: 500px; margin: 0 auto; background: white; min-height: 100vh; padding: 20px; }
-    .header { text-align: center; padding: 20px 0; border-bottom: 2px solid #009639; }
-    .logo { font-size: 32px; font-weight: bold; color: #009639; }
-    .progress { display: flex; justify-content: space-between; margin: 20px 0; }
-    .step { flex: 1; text-align: center; padding: 10px; background: #ddd; color: #666; margin: 0 5px; border-radius: 8px; font-weight: bold; }
-    .step.active { background: #009639; color: white; }
-    .form-title { text-align: center; color: #009639; font-size: 22px; margin: 25px 0; }
-    .form-group { margin-bottom: 20px; }
-    .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
-    .form-group input, .form-group select { width: 100%; padding: 14px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; }
-    .form-group input:focus, .form-group select:focus { border-color: #009639; outline: none; }
-    .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-    .btn { flex: 1; padding: 16px; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
-    .btn-back { background: #ccc; color: #333; }
-    .btn-next { background: #009639; color: white; }
-    .btn-next:hover { background: #00B347; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Step 2 - Waafi</title>
+<style>
+body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
+.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; display:flex; justify-content:space-between; align-items:center; }
+.container { padding:20px; max-width:600px; margin:auto; }
+.card { background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+h2 { text-align:center; margin:0; }
+.step { text-align:center; color:#888; margin-bottom:15px; }
+.progress { display:flex; gap:5px; margin-bottom:20px; }
+.bar { flex:1; height:6px; background:#ddd; border-radius:5px; }
+.bar.active { background: linear-gradient(90deg, #a8e063, #00B347); }
+label { display:block; margin:15px 0 5px 0; font-weight:bold; }
+input { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; }
+.phone { display:flex; gap:10px; }
+.phone span { padding:12px; background:#eee; border-radius:8px; }
+.btn { width:100%; padding:16px; border:none; border-radius:8px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin-top:20px; }
+.btn.gray { background:#ccc; color:#333; }
+</style>
 </head>
 <body>
+<div class="header"><div>← Back</div><h1>Enough</h1><div>☰</div></div>
 <div class="container">
-  <div class="header">
-    <div class="logo">WAAFI</div>
-  </div>
-  
-  <div class="progress">
-    <div class="step">1. Personal</div>
-    <div class="step active">2. Loan</div>
-    <div class="step">3. Submit</div>
-  </div>
-  
-  <h2 class="form-title">Loan Details</h2>
-  
-  <form>
-    <div class="form-group">
-      <label>Loan Amount (USD)</label>
-      <input type="number" placeholder="e.g. 5000" required>
-    </div>
-    <div class="form-group">
-      <label>Loan Purpose</label>
-      <select required>
-        <option value="">Select purpose</option>
-        <option>Business</option>
-        <option>Education</option>
-        <option>Medical</option>
-        <option>Home</option>
-        <option>Other</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Repayment Period (Months)</label>
-      <input type="number" placeholder="e.g. 12" required>
-    </div>
+  <div class="card">
+    <h2>Loan Application</h2>
+    <div class="step">Step 2 of 3</div>
+    <div class="progress"><div class="bar active"></div><div class="bar active"></div><div class="bar"></div></div>
     
-    <div class="btn-group">
-      <button type="button" class="btn btn-back" onclick="window.location.href='step1.html'">BACK</button>
-      <button type="button" class="btn btn-next" onclick="window.location.href='step3.html'">CONTINUE</button>
-    </div>
-  </form>
+    <label>First Name</label>
+    <input type="text" placeholder="Ahmed">
+    
+    <label>Last Name</label>
+    <input type="text" placeholder="Hassan">
+    
+    <label>Email Address</label>
+    <input type="email" placeholder="ahmed.hassan@example.com">
+    
+    <label>Phone Number</label>
+    <div class="phone"><span>+252</span><input type="text" placeholder="612345678"></div>
+    <small>Enter 9 digits (example: 612345678 or 907654321)</small>
+    
+    <button class="btn gray">SO THAT</button>
+    <button class="btn" onclick="window.location.href='step3.html'">NEXT STEP</button>
+  </div>
 </div>
 </body>
 </html>
