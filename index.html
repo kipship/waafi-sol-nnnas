@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Waafi Loan Application</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial; background: #f0f2f5; padding: 20px; }
+    .card { background: white; max-width: 500px; margin: auto; padding: 30px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    label { font-weight: bold; display: block; margin-top: 15px; margin-bottom: 5px; }
+    input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; }
+    button { width: 100%; padding: 15px; background: linear-gradient(90deg,#B4FF00,#32d296); border: none; border-radius: 10px; color: white; font-weight: bold; font-size: 18px; margin-top: 15px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    
+    <!-- STEP 1 -->
+    <div id="step1">
+      <h2 style="text-align:center; color:#002F6C;">Codsiga Amaahda</h2>
+      <p style="text-align:center; color:#777;">Step 1 of 3</p>
+      <div style="display:flex; gap:5px; margin:15px 0;">
+        <div style="flex:1; height:6px; background:linear-gradient(90deg,#B4FF00,#32d296); border-radius:10px;"></div>
+        <div style="flex:1; height:6px; background:#eee; border-radius:10px;"></div>
+        <div style="flex:1; height:6px; background:#eee; border-radius:10px;"></div>
+      </div>
+
+      <label>Loan Type</label>
+      <select><option>Personal Loan</option><option>Business Loan</option></select>
+      
+      <label>Loan Amount ($)</label>
+      <input type="number" placeholder="500">
+      
+      <label>What will you use the loan for?</label>
+      <textarea rows="3" placeholder="Business, School fees..."></textarea>
+      
+      <button type="button" onclick="goToStep2()">NEXT STEP</button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step2" style="display:none;">
+      <h2 style="text-align:center; color:#002F6C;">Macluumaadkaaga</h2>
+      <p style="text-align:center; color:#777;">Step 2 of 3</p>
+      <div style="display:flex; gap:5px; margin:15px 0;">
+        <div style="flex:1; height:6px; background:linear-gradient(90deg,#B4FF00,#32d296); border-radius:10px;"></div>
+        <div style="flex:1; height:6px; background:linear-gradient(90deg,#B4FF00,#32d296); border-radius:10px;"></div>
+        <div style="flex:1; height:6px; background:#eee; border-radius:10px;"></div>
+      </div>
+
+      <label>Full Name</label>
+      <input type="text" placeholder="Your Name">
+      
+      <label>Phone Number</label>
+      <input type="tel" placeholder="07XX XXX XXX">
+      
+      <label>ID Number</label>
+      <input type="text" placeholder="Your ID">
+      
+      <button type="button" onclick="goToStep3()">NEXT STEP</button>
+    </div>
+
+    <!-- STEP 3 -->
+    <div id="step3" style="display:none; text-align:center;">
+      <h2 style="text-align:center; color:#002F6C;">Xaqiiji Codsiga</h2>
+      <p style="text-align:center; color:#777;">Step 3 of 3</p>
+      <div style="display:flex; gap:5px; margin:15px 0;">
+        <div style="flex:1; height:6px; background:linear-gradient(90deg,#B4FF00,#32d296); border-radius:10px;"></div>
+        <div style="flex:1; height:6px; background:linear-gradient(90deg,#B4FF00,#32d296); border-radius:10px;"></div>
+        <div style="flex:1; height:6px; background:linear-gradient(90deg,#B4FF00,#32d296); border-radius:10px;"></div>
+      </div>
+      <p style="font-size:18px;">Mahadsanid! Codsigaaga waanu helnay.</p>
+      <p>We will contact you within 24 hours.</p>
+      <button type="button" onclick="alert('Submitted!')" style="background:#002F6C;">SUBMIT APPLICATION</button>
+    </div>
+
+  </div>
+
+<script>
+function goToStep2() {
+  document.getElementById('step1').style.display = 'none';
+  document.getElementById('step2').style.display = 'block';
+}
+function goToStep3() {
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step3').style.display = 'block';
+}
+</script>
+</body>
+</html>
