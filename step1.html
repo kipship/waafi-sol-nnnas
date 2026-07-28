@@ -1,52 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Step 1 - Waafi</title>
-<style>
-body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
-.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; display:flex; justify-content:space-between; align-items:center; font-weight:bold; }
-.container { padding:20px; max-width:600px; margin:auto; }
-.card { background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-.grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:10px 0; }
-.option { padding:15px; border:2px solid #ddd; border-radius:10px; text-align:center; cursor:pointer; font-weight:bold; }
-.option.selected { border-color:#00B347; background:#e8f5e9; }
-label { display:block; margin:15px 0 5px 0; font-weight:bold; }
-input, select { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; }
-.btn { width:100%; padding:16px; border:none; border-radius:8px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin-top:20px; }
-</style>
-</head>
-<body>
-<div class="header"><div>← Back</div><div>Waafi</div><div>☰</div></div>
-<div class="container"><div class="card">
-<h2>Step 1 of 3</h2>
+<h3>Step 1: Loan Details</h3>
 <label>Loan Type</label>
 <div class="grid">
-<div class="option" onclick="selectLoan(this,'Personal Loan')">Personal Loan</div>
-<div class="option" onclick="selectLoan(this,'Business Loan')">Business Loan</div>
-<div class="option" onclick="selectLoan(this,'Education Loan')">Education Loan</div>
-<div class="option" onclick="selectLoan(this,'Home Loan')">Home Loan</div>
+<div class="option" onclick="selectLoan(this,'Personal Loan')">Personal</div>
+<div class="option" onclick="selectLoan(this,'Business Loan')">Business</div>
+<div class="option" onclick="selectLoan(this,'Education Loan')">Education</div>
+<div class="option" onclick="selectLoan(this,'Home Loan')">Home</div>
 </div>
 <label>Loan Amount ($)</label><input id="amount" type="number" placeholder="5000">
 <label>Loan Period</label>
 <select id="period"><option>12 months</option><option>24 months</option><option>36 months</option></select>
 <label>Loan Purpose</label><input id="purpose" placeholder="e.g. Business capital">
-<button class="btn" onclick="next()">NEXT</button>
-</div></div>
-<script>
-let loanType = '';
-function selectLoan(el, type) {
-  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
-  el.classList.add('selected'); loanType = type;
-}
-function next() {
-  if(!loanType) return alert('Please select loan type');
-  localStorage.setItem('loanType', loanType);
-  localStorage.setItem('amount', document.getElementById('amount').value);
-  localStorage.setItem('period', document.getElementById('period').value);
-  localStorage.setItem('purpose', document.getElementById('purpose').value);
-  window.location.href='step2.html';
-}
-</script>
-</body>
-</html>
+</div>
+
+<div class="card">
