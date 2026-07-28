@@ -1,52 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Step 1 - Waafi</title>
-<style>
-body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
-.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; display:flex; justify-content:space-between; align-items:center; font-weight:bold; }
-.container { padding:20px; max-width:600px; margin:auto; }
-.card { background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-.grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:10px 0; }
-.option { padding:15px; border:2px solid #ddd; border-radius:10px; text-align:center; cursor:pointer; font-weight:bold; }
-.option.selected { border-color:#00B347; background:#e8f5e9; }
-label { display:block; margin:15px 0 5px 0; font-weight:bold; }
-input, select { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; }
-.btn { width:100%; padding:16px; border:none; border-radius:8px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin-top:20px; }
-</style>
-</head>
-<body>
-<div class="header"><div>← Back</div><div>Waafi</div><div>☰</div></div>
+<!DOCTYPE html><html lang="so"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talaabada 1</title><style>body{font-family:Arial;background:#f5f5f5;margin:0}
+.header{background:linear-gradient(90deg,#a8e063,#00B347);padding:15px;color:white;font-weight:bold;display:flex;align-items:center;gap:15px}
+.container{padding:20px;max-width:600px;margin:auto}.card{background:white;padding:25px;border-radius:15px}
+h2{text-align:center;margin-bottom:5px} .sub{text-align:center;color:#999;margin-bottom:20px}
+.progress{display:flex;gap:8px;margin-bottom:25px} .bar{height:5px;flex:1;background:#ddd;border-radius:5px}
+.bar.active{background:linear-gradient(90deg,#a8e063,#00B347)}
+label{display:block;margin:15px 0 5px;font-weight:600} input,select,textarea{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px}
+.btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:18px;font-weight:bold;background:linear-gradient(90deg,#a8e063,#00B347);color:white;margin-top:20px}</style>
+</head><body>
+<div class="header">← Dib u noqo <span style="margin-left:auto">Waafi</span> ☰</div>
 <div class="container"><div class="card">
-<h2>Step 1 of 3</h2>
-<label>Loan Type</label>
-<div class="grid">
-<div class="option" onclick="selectLoan(this,'Personal Loan')">Personal Loan</div>
-<div class="option" onclick="selectLoan(this,'Business Loan')">Business Loan</div>
-<div class="option" onclick="selectLoan(this,'Education Loan')">Education Loan</div>
-<div class="option" onclick="selectLoan(this,'Home Loan')">Home Loan</div>
-</div>
-<label>Loan Amount ($)</label><input id="amount" type="number" placeholder="5000">
-<label>Loan Period</label>
-<select id="period"><option>12 months</option><option>24 months</option><option>36 months</option></select>
-<label>Loan Purpose</label><input id="purpose" placeholder="e.g. Business capital">
-<button class="btn" onclick="next()">NEXT</button>
+<h2>Codsiga Amaahda</h2><p class="sub">Tallaabada 1 ee 3</p>
+<div class="progress"><div class="bar active"></div><div class="bar"></div><div class="bar"></div></div>
+
+<label>Nooca Amaahda</label>
+<select id="type"><option>Amaah Shakhsi ah</option><option>Amaah Ganacsi</option><option>Amaah Waxbarasho</option><option>Amaah Guri</option></select>
+
+<label>Qaddarka Amaahda ($)</label><input id="amount" type="number" value="1000">
+
+<label>Muddada Amaahda</label>
+<select id="period"><option>12 Bilood</option><option>24 Bilood</option><option>36 Bilood</option><option>60 Bilood</option></select>
+
+<label>Ujeedada Amaahda</label><textarea id="purpose" rows="3" placeholder="Maxaad u isticmaali doontaa amaahda?"></textarea>
+
+<button class="btn" onclick="save1()">TALLAABADA XIGTA</button>
 </div></div>
-<script>
-let loanType = '';
-function selectLoan(el, type) {
-  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
-  el.classList.add('selected'); loanType = type;
-}
-function next() {
-  if(!loanType) return alert('Please select loan type');
-  localStorage.setItem('loanType', loanType);
-  localStorage.setItem('amount', document.getElementById('amount').value);
-  localStorage.setItem('period', document.getElementById('period').value);
-  localStorage.setItem('purpose', document.getElementById('purpose').value);
-  window.location.href='step2.html';
-}
-</script>
-</body>
-</html>
+<script>function save1(){
+localStorage.setItem('waafi_step1',JSON.stringify({type:type.value,amount:amount.value,period:period.value,purpose:purpose.value}));
+location.href='step2.html';
+}</script></body></html>
