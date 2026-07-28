@@ -1,36 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Step 2 - Waafi</title>
-<style>
-body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
-.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; display:flex; justify-content:space-between; align-items:center; font-weight:bold; }
-.container { padding:20px; max-width:600px; margin:auto; }
-.card { background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-label { display:block; margin:15px 0 5px 0; font-weight:bold; }
-input { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; }
-.btn { width:100%; padding:16px; border:none; border-radius:8px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin-top:20px; }
-</style>
-</head>
-<body>
-<div class="header"><div>← Back</div><div>Waafi</div><div>☰</div></div>
-<div class="container"><div class="card">
-<h2>Step 2 of 3</h2>
+
+<h3>Step 2: Personal Info + OTP Verification</h3>
 <label>First Name</label><input id="fname" placeholder="Ahmed">
 <label>Last Name</label><input id="lname" placeholder="Mohamed">
 <label>Email</label><input id="email" type="email" placeholder="ahmed@gmail.com">
-<label>Phone Number</label><input id="phone" type="number" placeholder="61xxxxxxx">
-<button class="btn" onclick="next()">NEXT</button>
-</div></div>
-<script>
-function next() {
-  localStorage.setItem('fname', document.getElementById('fname').value);
-  localStorage.setItem('lname', document.getElementById('lname').value);
-  localStorage.setItem('email', document.getElementById('email').value);
-  localStorage.setItem('phone', document.getElementById('phone').value);
-  window.location.href='step3.html';
-}
-</script>
-</body>
-</html>
+<label>Phone Number</label>
+<input id="phone" type="number" placeholder="612345678">
+<p class="note">Enter without +252. Ex: 612345678</p>
+<button class="btn btn-otp" type="button" onclick="sendOTP()">SEND OTP</button>
+
+<div id="otpSection" style="display:none; margin-top:15px;">
+  <label>Enter OTP sent to your phone</label>
+  <input id="userOTP" type="number" placeholder="1234" maxlength="4">
+  <button class="btn" type="button" onclick="verifyAndSend()">VERIFY & SUBMIT APPLICATION</button>
+</div>
+</div>
+
+<div class="card">
