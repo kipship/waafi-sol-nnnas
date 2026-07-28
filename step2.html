@@ -1,116 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Waafi - Step 2</title>
-<style>
-body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
-.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; text-align:center; font-weight:bold; font-size:20px; }
-.container { padding:20px; max-width:600px; margin:auto; }
-.card { background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin-bottom:20px; }
-h3 { color:#00B347; margin-top:0; }
-label { display:block; margin:15px 0 5px 0; font-weight:bold; }
-input { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; }
-.btn { width:100%; padding:16px; border:none; border-radius:8px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin-top:10px; }
-.btn-otp { background:#0084ff; }
-.btn-back { background:#999; }
-.note { font-size:12px; color:#666; margin-top:5px; }
-.progress { display:flex; justify-content:space-between; margin-bottom:20px; font-size:14px; }
-.step { color:#999; }
-.step.active { color:#00B347; font-weight:bold; }
-</style>
-</head>
-<body>
-
-<div class="header">Waafi - Loan Application</div>
-
-<div class="container">
-
-<div class="progress">
-  <div class="step">1. Loan Details</div>
-  <div class="step active">2. Personal Info</div>
-  <div class="step">3. Work Info</div>
-</div>
-
-<div class="card">
-<h3>Step 2: Personal Info + OTP Verification</h3>
-
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Step 2</title>
+<style>body{font-family:Arial;background:#f5f5f5;margin:0}.header{background:linear-gradient(90deg,#b8e600,#00B347);padding:15px;color:white;text-align:center;font-weight:bold}.container{padding:20px;max-width:600px;margin:auto}.card{background:white;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}label{display:block;margin:15px 0 5px;font-weight:bold}input{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box}.btn{width:100%;padding:16px;border:none;border-radius:8px;font-size:18px;font-weight:bold;background:linear-gradient(90deg,#b8e600,#00B347);color:white;cursor:pointer;margin-top:10px}.btn-back{background:#999}.progress{display:flex;justify-content:space-between;margin-bottom:20px;font-size:14px}.step{color:#999}.step.active{color:#00B347;font-weight:bold}</style>
+</head><body><div class="header">Enough - Loan Application</div><div class="container">
+<div class="progress"><div class="step">1. Loan</div><div class="step active">2. Personal</div><div class="step">3. Work</div><div class="step">4. Submit</div></div>
+<div class="card"><h3>Step 2: Personal Info</h3>
 <label>First Name</label><input id="fname" placeholder="Ahmed">
 <label>Last Name</label><input id="lname" placeholder="Mohamed">
 <label>Email</label><input id="email" type="email" placeholder="ahmed@gmail.com">
-<label>Phone Number</label>
-<input id="phone" type="number" placeholder="612345678">
-<p class="note">Enter without +252. Ex: 612345678</p>
-
-<button class="btn btn-otp" type="button" onclick="sendOTP()">SEND OTP</button>
-
-<div id="otpSection" style="display:none; margin-top:15px;">
-  <label>Enter OTP sent to your phone</label>
-  <input id="userOTP" type="number" placeholder="1234" maxlength="4">
-  <button class="btn" type="button" onclick="saveStep2()">VERIFY & NEXT</button>
-</div>
-
-<button class="btn btn-back" onclick="window.location.href='step1.html'">BACK</button>
-
-</div>
-</div>
-
-<script>
-const AT_API_KEY = "PASTE_YOUR_AT_API_KEY_HERE"; // <-- REPLACE THIS WITH YOUR REAL KEY
-let generatedOTP = '';
-
-async function sendOTP() {
-  const phone = document.getElementById('phone').value;
-  if(phone.length < 9) return alert('❌ Enter valid 9 digit phone number');
-  if(!document.getElementById('fname').value) return alert('❌ Please enter First Name');
-  if(AT_API_KEY === "PASTE_YOUR_AT_API_KEY_HERE") return alert('❌ Please add your Africa\'s Talking API Key in the code');
-
-  generatedOTP = Math.floor(1000 + Math.random() * 9000);
-  const message = `Waafi: Your verification code is ${generatedOTP}. Valid for 5 minutes. Do not share.`;
-
-  const formData = new FormData();
-  formData.append('username', 'sandbox');
-  formData.append('to', `+252${phone}`);
-  formData.append('message', message);
-  formData.append('apiKey', AT_API_KEY);
-
-  try {
-    const res = await fetch("https://corsproxy.io/?https://api.sandbox.africastalking.com/version1/messaging", {
-      method: "POST",
-      body: formData
-    });
-    const data = await res.json();
-
-    if(data.SMSMessageData && data.SMSMessageData.Recipients[0].status === 'Success') {
-      alert('✅ OTP Sent to +252' + phone);
-      document.getElementById('otpSection').style.display = 'block';
-    } else {
-      alert('❌ Failed to send SMS. Check: 1. API Key 2. Allowed Number');
-    }
-  } catch(e) {
-    alert('❌ Error: ' + e.message);
-  }
-}
-
-function saveStep2() {
-  const userOTP = document.getElementById('userOTP').value;
-  if(userOTP!= generatedOTP) return alert('❌ Wrong OTP. Please try again');
-
-  // Save data to localStorage
-  const step2Data = {
-    fname: document.getElementById('fname').value,
-    lname: document.getElementById('lname').value,
-    email: document.getElementById('email').value,
-    phone: document.getElementById('phone').value,
-    verified: true
-  };
-  localStorage.setItem('waafi_step2', JSON.stringify(step2Data));
-
-  // Go to next page
-  window.location.href = 'step3.html';
-}
-</script>
-
-</body>
-</html>
+<label>Phone Number</label><input id="phone" type="number" placeholder="719389953" readonly>
+<button class="btn" onclick="saveStep2()">NEXT</button>
+<button class="btn btn-back" onclick="location.href='step1.html'">BACK</button></div></div>
+<script>document.getElementById('phone').value = localStorage.getItem('waafi_phone') || '';
+function saveStep2(){if(!fname.value)return alert('Enter first name');
+localStorage.setItem('waafi_step2',JSON.stringify({fname:fname.value,lname:lname.value,email:email.value,phone:phone.value}));location.href='step3.html';}</script></body></html>
