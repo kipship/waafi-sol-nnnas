@@ -1,36 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Step 2 - Waafi</title>
-<style>
-body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
-.header { background: linear-gradient(90deg, #a8e063, #00B347); padding:15px; color:white; display:flex; justify-content:space-between; align-items:center; font-weight:bold; }
-.container { padding:20px; max-width:600px; margin:auto; }
-.card { background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-label { display:block; margin:15px 0 5px 0; font-weight:bold; }
-input { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; }
-.btn { width:100%; padding:16px; border:none; border-radius:8px; font-size:18px; font-weight:bold; background: linear-gradient(90deg, #a8e063, #00B347); color:white; cursor:pointer; margin-top:20px; }
-</style>
-</head>
-<body>
-<div class="header"><div>← Back</div><div>Waafi</div><div>☰</div></div>
+<!DOCTYPE html><html lang="so"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talaabada 2</title><style>body{font-family:Arial;background:#f5f5f5;margin:0}
+.header{background:linear-gradient(90deg,#a8e063,#00B347);padding:15px;color:white;font-weight:bold;display:flex;align-items:center;gap:15px}
+.container{padding:20px;max-width:600px;margin:auto}.card{background:white;padding:25px;border-radius:15px}
+h2{text-align:center;margin-bottom:5px} .sub{text-align:center;color:#999;margin-bottom:20px}
+.progress{display:flex;gap:8px;margin-bottom:25px} .bar{height:5px;flex:1;background:#ddd;border-radius:5px}
+.bar.active{background:linear-gradient(90deg,#a8e063,#00B347)}
+label{display:block;margin:15px 0 5px;font-weight:600} input,select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px}
+.summary{background:#f0fff4;border-left:4px solid #00B347;padding:15px;border-radius:10px;margin:20px 0}
+.summary .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e0e0e0}
+.btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:18px;font-weight:bold;background:linear-gradient(90deg,#a8e063,#00B347);color:white;margin-top:10px}
+.btn-gray{background:#ddd;color:#333}</style>
+</head><body>
+<div class="header">← Dib u noqo <span style="margin-left:auto">Waafi</span> ☰</div>
 <div class="container"><div class="card">
-<h2>Step 2 of 3</h2>
-<label>First Name</label><input id="fname" placeholder="Ahmed">
-<label>Last Name</label><input id="lname" placeholder="Mohamed">
-<label>Email</label><input id="email" type="email" placeholder="ahmed@gmail.com">
-<label>Phone Number</label><input id="phone" type="number" placeholder="61xxxxxxx">
-<button class="btn" onclick="next()">NEXT</button>
+<h2>Codsiga Amaahda</h2><p class="sub">Tallaabada 3 ee 3</p>
+<div class="progress"><div class="bar active"></div><div class="bar active"></div><div class="bar active"></div></div>
+
+<label>Xaaladda Shaqada</label>
+<select id="work"><option>Shaqaale</option><option>Iskaashato</option><option>Arday</option><option>Shagala'aan</option></select>
+
+<label>Dakhliga Sanadka ($)</label><input id="income" type="number" placeholder="25,000">
+
+<div class="summary"><h3>Soo koobidda Codsiga</h3>
+<div class="row"><span>Qaddarka Amaahda:</span><span id="s_amount">$1,000</span></div>
+<div class="row"><span>Muddada Amaahda:</span><span id="s_period">12 Bilood</span></div>
+<div class="row"><span>Ujeedada:</span><span id="s_purpose">Business</span></div>
+<div class="row"><span>Codsade:</span><span id="s_name">-</span></div>
+</div>
+
+<button class="btn-gray" onclick="location.href='step1.html'">KA HORE</button>
+<button class="btn" onclick="submit()">DIR CODSIGA</button>
 </div></div>
 <script>
-function next() {
-  localStorage.setItem('fname', document.getElementById('fname').value);
-  localStorage.setItem('lname', document.getElementById('lname').value);
-  localStorage.setItem('email', document.getElementById('email').value);
-  localStorage.setItem('phone', document.getElementById('phone').value);
-  window.location.href='step3.html';
-}
-</script>
-</body>
-</html>
+const step1=JSON.parse(localStorage.getItem('waafi_step1'));
+s_amount.innerText='$'+Number(step1.amount).toLocaleString();
+s_period.innerText=step1.period;
+s_purpose.innerText=step1.type;
+function submit(){
+localStorage.setItem('waafi_step2',JSON.stringify({work:work.value,income:income.value}));
+location.href='step3.html';
+}</script></body></html>
