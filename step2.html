@@ -6,37 +6,32 @@ h2{text-align:center;margin-bottom:5px} .sub{text-align:center;color:#999;margin
 .progress{display:flex;gap:8px;margin-bottom:25px} .bar{height:5px;flex:1;background:#ddd;border-radius:5px}
 .bar.active{background:linear-gradient(90deg,#a8e063,#00B347)}
 label{display:block;margin:15px 0 5px;font-weight:600} input,select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px}
-.summary{background:#f0fff4;border-left:4px solid #00B347;padding:15px;border-radius:10px;margin:20px 0}
-.summary .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e0e0e0}
-.btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:18px;font-weight:bold;background:linear-gradient(90deg,#a8e063,#00B347);color:white;margin-top:10px}
-.btn-gray{background:#ddd;color:#333}</style>
+.phone{display:flex;gap:10px} .phone span{padding:14px;background:#eee;border:1px solid #ddd;border-radius:10px;font-weight:600}
+small{color:#666;font-size:12px}
+.btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:18px;font-weight:bold;background:linear-gradient(90deg,#a8e063,#00B347);color:white;margin-top:20px}
+.btn-gray{background:#ddd;color:#333;margin-bottom:10px}</style>
 </head><body>
-<div class="header">← Dib u noqo <span style="margin-left:auto">Waafi</span> ☰</div>
+<div class="header">← Dib u noqo <span style="margin-left:auto">Waafi</span></div>
 <div class="container"><div class="card">
-<h2>Codsiga Amaahda</h2><p class="sub">Tallaabada 3 ee 3</p>
-<div class="progress"><div class="bar active"></div><div class="bar active"></div><div class="bar active"></div></div>
+<h2>Codsiga Amaahda</h2><p class="sub">Tallaabada 2 ee 3</p>
+<div class="progress"><div class="bar active"></div><div class="bar active"></div><div class="bar"></div></div>
 
-<label>Xaaladda Shaqada</label>
-<select id="work"><option>Shaqaale</option><option>Iskaashato</option><option>Arday</option><option>Shagala'aan</option></select>
+<label>Magaca Hore</label><input id="fname" placeholder="Ahmed">
+<label>Magaca Dambe</label><input id="lname" placeholder="Hassan">
+<label>Ciwaanka Emailka</label><input id="email" type="email" placeholder="ahmed.hassan@example.com">
 
-<label>Dakhliga Sanadka ($)</label><input id="income" type="number" placeholder="25,000">
-
-<div class="summary"><h3>Soo koobidda Codsiga</h3>
-<div class="row"><span>Qaddarka Amaahda:</span><span id="s_amount">$1,000</span></div>
-<div class="row"><span>Muddada Amaahda:</span><span id="s_period">12 Bilood</span></div>
-<div class="row"><span>Ujeedada:</span><span id="s_purpose">Business</span></div>
-<div class="row"><span>Codsade:</span><span id="s_name">-</span></div>
+<label>Lambarka Taleefanka</label>
+<div class="phone">
+<span>+252</span>
+<input id="phone" type="tel" placeholder="612345678" maxlength="9">
 </div>
+<small>Geli 9 tiro (tusaale: 612345678 ama 907654321)</small>
 
 <button class="btn-gray" onclick="location.href='step1.html'">KA HORE</button>
-<button class="btn" onclick="submit()">DIR CODSIGA</button>
+<button class="btn" onclick="save2()">TALLAABADA XIGTA</button>
 </div></div>
-<script>
-const step1=JSON.parse(localStorage.getItem('waafi_step1'));
-s_amount.innerText='$'+Number(step1.amount).toLocaleString();
-s_period.innerText=step1.period;
-s_purpose.innerText=step1.type;
-function submit(){
-localStorage.setItem('waafi_step2',JSON.stringify({work:work.value,income:income.value}));
+<script>function save2(){
+if(!fname.value || !lname.value || !email.value || phone.value.length<9)return alert('Fadlan buuxi dhammaan meelaha si sax ah');
+localStorage.setItem('waafi_step2',JSON.stringify({fname:fname.value,lname:lname.value,email:email.value,phone:phone.value}));
 location.href='step3.html';
 }</script></body></html>
