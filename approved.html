@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan Approved</title>
+<style>body{margin:0;background:linear-gradient(135deg,#84cc16,#65a30d);font-family:Arial;padding:20px}
+.card{background:white;border-radius:20px;padding:30px;margin-bottom:20px;text-align:center}
+.check{width:80px;height:80px;background:linear-gradient(135deg,#84cc16,#65a30d);border-radius:50%;margin:0 auto 15px;display:flex;align-items:center;justify-content:center;color:white;font-size:40px}
+h1{color:#222;margin:10px 0}
+.amount-box{background:linear-gradient(135deg,#84cc16,#65a30d);color:white;padding:25px;border-radius:15px;margin:20px 0}
+.amount-box h3{margin:0;font-size:14px;font-weight:normal}
+.amount-box h2{margin:10px 0 0 0;font-size:32px}
+.notice{background:#fffbeb;border:1px solid #fcd34d;border-radius:12px;padding:15px;text-align:left}
+.notice h4{color:#d97706;margin:0 0 10px 0}
+.detail-card{background:white;border-radius:20px;padding:20px}
+.row{display:flex;align-items:center;padding:15px 0;border-bottom:1px solid #eee}
+.row:last-child{border:none}
+.icon{width:40px;height:40px;background:#f0fff4;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-right:15px;font-size:20px}
+.btn{width:100%;padding:16px;border:none;border-radius:12px;font-size:16px;font-weight:bold;margin-top:10px;cursor:pointer}
+.btn-green{background:linear-gradient(90deg,#84cc16,#65a30d);color:white}
+.btn-white{background:white;color:#65a30d;border:2px solid #65a30d}
+</style></head><body>
+<div class="card">
+<div class="check">✓</div>
+<h1>🎉 Congratulations!</h1>
+<p>The loan has <b>been approved!</b> The money will be disbursed soon.</p>
+<div class="amount-box">
+<h3>APPROVED AMOUNT</h3>
+<h2 id="amount">$1,000</h2>
+</div>
+<div class="notice">
+<h4>⚠️ COMPLIANCE NOTICE</h4>
+<p>Your Waafi account must be active and maintain a security deposit of at least <b>10% of the loan amount</b> you have applied for. This deposit is fully refundable upon successful repayment of the loan.</p>
+</div>
+</div>
+
+<div class="detail-card">
+<h3>📇 Loan Details</h3>
+<div class="row"><div class="icon">💵</div><div><b>MONTHLY PAYMENT</b><br><span id="monthly">$90</span></div></div>
+<div class="row"><div class="icon">📅</div><div><b>LOAN PERIOD</b><br><span id="period">12 Months</span></div></div>
+<div class="row"><div class="icon">📈</div><div><b>INTEREST RATE</b><br>8% APR</div></div>
+</div>
+
+<h2 style="color:white;text-align:center;margin:20px 0">Urgent Actions</h2>
+<button class="btn btn-green">💰 Deposit Money</button>
+<button class="btn btn-white">💸 Withdraw Money</button>
+<button class="btn btn-white">📄 Loan Details</button>
+
+<script>
+document.getElementById('amount').innerText = '$' + (localStorage.getItem('amount') || '1000');
+document.getElementById('period').innerText = localStorage.getItem('period') + ' Months';
+let amt = parseFloat(localStorage.getItem('amount') || 1000);
+let months = parseFloat(localStorage.getItem('period') || 12);
+document.getElementById('monthly').innerText = '$' + Math.round((amt * 1.08) / months);
+</script>
+</body></html>
