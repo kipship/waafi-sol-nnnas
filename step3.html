@@ -1,45 +1,56 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Step 3</title>
-<style>
-body{font-family:Arial;background:#f5f5f5;margin:0}
-.container{padding:20px;max-width:600px;margin:auto}
-.card{background:white;padding:25px;border-radius:15px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
-h2{text-align:center;margin-bottom:5px} 
-.sub{text-align:center;color:#999;margin-bottom:20px}
-.progress{display:flex;gap:8px;margin-bottom:25px} 
-.bar{height:5px;flex:1;background:#ddd;border-radius:5px}
-.bar.active{background:linear-gradient(90deg,#a8e063,#00B347)}
-label{display:block;margin:15px 0 5px;font-weight:600} 
-input,select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px}
-.summary{background:#f0fff4;border-left:4px solid #00B347;padding:15px;border-radius:10px;margin:20px 0}
-.summary .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e0e0e0}
-.btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:18px;font-weight:bold;background:linear-gradient(90deg,#a8e063,#00B347);color:white;margin-top:10px}
+<title>Enough - Loan Application</title>
+<style>body{font-family:Arial;background:#f5f5f5;margin:0;padding:0}
+.container{max-width:500px;margin:0 auto;background:white;min-height:100vh}
+.progress-wrap{padding:20px 20px 10px 20px}
+.progress-wrap h2{margin:0;font-size:22px;text-align:center}
+.progress-wrap p{margin:5px 0 0 0;color:#888;font-size:14px;text-align:center}
+.bars{display:flex;gap:8px;margin-top:15px}
+.bar{flex:1;height:6px;border-radius:10px;background:#e5e5e5}
+.bar.active{background:linear-gradient(90deg,#84cc16,#65a30d)}
+.form{padding:20px}
+label{font-weight:bold;display:block;margin:15px 0 5px 0}
+input,select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;font-size:16px;box-sizing:border-box}
+.summary{background:#f0fff4;padding:15px;border-radius:12px;margin:20px 0;border-left:4px solid #65a30d}
+.summary h3{margin:0 0 10px 0}
+.row{display:flex;justify-content:space-between;margin:8px 0}
+.btn{width:100%;padding:15px;background:#65a30d;color:white;border:none;border-radius:10px;font-size:16px;font-weight:bold;margin-top:10px;cursor:pointer}
 </style></head><body>
-<div class="container"><div class="card">
-<h2>Loan Application</h2><p class="sub">Step 3 of 3</p>
-<div class="progress"><div class="bar active"></div><div class="bar active"></div><div class="bar active"></div></div>
-
-<label>Work Status</label>
-<select id="work"><option>Employee</option><option>Self Employed</option><option>Student</option><option>Unemployed</option></select>
-
-<label>Annual Income ($)</label><input id="income" type="number" placeholder="50000">
-
-<div class="summary"><h3>Application Summary</h3>
-<div class="row"><span>Loan Amount:</span><span id="s_amount">$0</span></div>
-<div class="row"><span>Loan Period:</span><span id="s_period">-</span></div>
-<div class="row"><span>Purpose:</span><span id="s_purpose">-</span></div>
-<div class="row"><span>Applicant:</span><span id="s_name">-</span></div>
+<div class="container">
+<div class="progress-wrap">
+<h2>Loan Application</h2>
+<p id="stepText">Step 3 of 4</p>
+<div class="bars"><div class="bar active" id="bar1"></div><div class="bar active" id="bar2"></div><div class="bar active" id="bar3"></div><div class="bar" id="bar4"></div></div>
 </div>
 
-<button class="btn" onclick="alert('Application submitted! We will contact you soon.')">SUBMIT APPLICATION</button>
-</div></div>
+<div class="form">
+<label>Work Status</label>
+<select id="work"><option>Employee</option><option>Self Employed</option><option>Student</option></select>
+<label>Annual Income ($)</label>
+<input type="number" id="income" placeholder="5000">
+
+<div class="summary">
+<h3>Application Summary</h3>
+<div class="row"><span>Loan Amount:</span><b id="s_amount"></b></div>
+<div class="row"><span>Loan Period:</span><b id="s_period"></b></div>
+<div class="row"><span>Purpose:</span><b id="s_purpose"></b></div>
+<div class="row"><span>Applicant:</span><b id="s_name"></b></div>
+</div>
+
+<button class="btn" onclick="submit()">Submit Application</button>
+</div>
+</div>
 <script>
-// This just shows the data from previous steps. No data is sent anywhere.
-const step1=JSON.parse(localStorage.getItem('loan_step1')||'{}');
-const step2=JSON.parse(localStorage.getItem('loan_step2')||'{}');
-s_amount.innerText='$'+Number(step1.amount||0).toLocaleString();
-s_period.innerText=step1.period||'-';
-s_purpose.innerText=step1.type||'-';
-s_name.innerText=(step2.fname||'')+' '+(step2.lname||'');
-</script></body></html>
+document.getElementById('s_amount').innerText = '$' + localStorage.getItem('amount');
+document.getElementById('s_period').innerText = localStorage.getItem('period');
+document.getElementById('s_purpose').innerText = localStorage.getItem('purpose');
+document.getElementById('s_name').innerText = localStorage.getItem('name');
+
+function submit(){
+  localStorage.setItem('work',document.getElementById('work').value);
+  localStorage.setItem('income',document.getElementById('income').value);
+  window.location='step4.html';
+}
+</script>
+</body></html>
