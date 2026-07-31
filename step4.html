@@ -4,7 +4,7 @@
 <style>body{font-family:Arial;background:#f5f5f5;margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
 .container{max-width:500px;width:100%}
 .progress-wrap{padding:20px 0 10px 0}
-.progress-wrap h2{margin:0;font-size:22px;text-align:center}
+.progress-wrap h2{margin:0;font-size:22px;text-align:center;color:#65a30d}
 .progress-wrap p{margin:5px 0 0 0;color:#888;font-size:14px;text-align:center}
 .bars{display:flex;gap:8px;margin-top:15px}
 .bar{flex:1;height:6px;border-radius:10px;background:#e5e5e5}
@@ -22,7 +22,7 @@ p{color:#666;line-height:1.6;margin:10px 0}
 <div class="progress-wrap">
 <h2>Loan Application</h2>
 <p id="stepText">Step 4 of 4</p>
-<div class="bars"><div class="bar active" id="bar1"></div><div class="bar active" id="bar2"></div><div class="bar active" id="bar3"></div><div class="bar active" id="bar4"></div></div>
+<div class="bars"><div class="bar active"></div><div class="bar active"></div><div class="bar active"></div><div class="bar active"></div></div>
 </div>
 
 <div class="card">
@@ -30,16 +30,17 @@ p{color:#666;line-height:1.6;margin:10px 0}
 <h2>Loan Application Submitted</h2>
 <p>Thank you for applying to Enough.</p>
 <p>Our team will review your application and contact you soon.</p>
-<div class="timer-box"><span class="loader"></span>Redirecting to home in 5 seconds...</div>
-<button class="btn" onclick="window.location='index.html'">Go to Home Now</button>
+<div class="timer-box"><span class="loader"></span>Redirecting to login in 5 seconds...</div>
+<button class="btn" onclick="window.location='login.html'">Go to Login Now</button> <!-- CHANGED -->
 </div>
 </div>
 <script>
+localStorage.clear(); // Clear old data for next person
 let count = 5;
 const timer = setInterval(()=>{
   count--;
-  document.querySelector('.timer-box').innerHTML = `<span class="loader"></span>Redirecting to home in ${count} seconds...`;
-  if(count <= 0){clearInterval(timer);window.location='index.html';}
+  document.querySelector('.timer-box').innerHTML = `<span class="loader"></span>Redirecting to login in ${count} seconds...`; // CHANGED
+  if(count <= 0){clearInterval(timer);window.location='login.html';} // CHANGED
 }, 1000);
 </script>
 </body></html>
