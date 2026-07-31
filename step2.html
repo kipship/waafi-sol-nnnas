@@ -1,37 +1,42 @@
-<!DOCTYPE html><html lang="so"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Talaabada 2</title><style>body{font-family:Arial;background:#f5f5f5;margin:0}
-.header{background:linear-gradient(90deg,#a8e063,#00B347);padding:15px;color:white;font-weight:bold;display:flex;align-items:center;gap:15px}
-.container{padding:20px;max-width:600px;margin:auto}.card{background:white;padding:25px;border-radius:15px}
-h2{text-align:center;margin-bottom:5px} .sub{text-align:center;color:#999;margin-bottom:20px}
-.progress{display:flex;gap:8px;margin-bottom:25px} .bar{height:5px;flex:1;background:#ddd;border-radius:5px}
-.bar.active{background:linear-gradient(90deg,#a8e063,#00B347)}
-label{display:block;margin:15px 0 5px;font-weight:600} input,select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px}
-.phone{display:flex;gap:10px} .phone span{padding:14px;background:#eee;border:1px solid #ddd;border-radius:10px;font-weight:600}
-small{color:#666;font-size:12px}
-.btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:18px;font-weight:bold;background:linear-gradient(90deg,#a8e063,#00B347);color:white;margin-top:20px}
-.btn-gray{background:#ddd;color:#333;margin-bottom:10px}</style>
-</head><body>
-<div class="header">← Dib u noqo <span style="margin-left:auto">Waafi</span></div>
-<div class="container"><div class="card">
-<h2>Codsiga Amaahda</h2><p class="sub">Tallaabada 2 ee 3</p>
-<div class="progress"><div class="bar active"></div><div class="bar active"></div><div class="bar"></div></div>
-
-<label>Magaca Hore</label><input id="fname" placeholder="Ahmed">
-<label>Magaca Dambe</label><input id="lname" placeholder="Hassan">
-<label>Ciwaanka Emailka</label><input id="email" type="email" placeholder="ahmed.hassan@example.com">
-
-<label>Lambarka Taleefanka</label>
-<div class="phone">
-<span>+252</span>
-<input id="phone" type="tel" placeholder="612345678" maxlength="9">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enough - Loan Application</title>
+<style>body{font-family:Arial;background:#f5f5f5;margin:0;padding:0}
+.container{max-width:500px;margin:0 auto;background:white;min-height:100vh}
+.progress-wrap{padding:20px 20px 10px 20px}
+.progress-wrap h2{margin:0;font-size:22px;text-align:center}
+.progress-wrap p{margin:5px 0 0 0;color:#888;font-size:14px;text-align:center}
+.bars{display:flex;gap:8px;margin-top:15px}
+.bar{flex:1;height:6px;border-radius:10px;background:#e5e5e5}
+.bar.active{background:linear-gradient(90deg,#84cc16,#65a30d)}
+.form{padding:20px}
+label{font-weight:bold;display:block;margin:15px 0 5px 0}
+input{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;font-size:16px;box-sizing:border-box}
+.btn{width:100%;padding:15px;background:#65a30d;color:white;border:none;border-radius:10px;font-size:16px;font-weight:bold;margin-top:20px;cursor:pointer}
+</style></head><body>
+<div class="container">
+<div class="progress-wrap">
+<h2>Loan Application</h2>
+<p id="stepText">Step 2 of 4</p>
+<div class="bars"><div class="bar active" id="bar1"></div><div class="bar active" id="bar2"></div><div class="bar" id="bar3"></div><div class="bar" id="bar4"></div></div>
 </div>
-<small>Geli 9 tiro (tusaale: 612345678 ama 907654321)</small>
 
-<button class="btn-gray" onclick="location.href='step1.html'">KA HORE</button>
-<button class="btn" onclick="save2()">TALLAABADA XIGTA</button>
-</div></div>
-<script>function save2(){
-if(!fname.value || !lname.value || !email.value || phone.value.length<9)return alert('Fadlan buuxi dhammaan meelaha si sax ah');
-localStorage.setItem('waafi_step2',JSON.stringify({fname:fname.value,lname:lname.value,email:email.value,phone:phone.value}));
-location.href='step3.html';
-}</script></body></html>
+<div class="form">
+<label>Full Name</label>
+<input type="text" id="name" placeholder="John Doe">
+<label>Phone Number</label>
+<input type="text" id="phone" placeholder="+252 61xxxxxxx">
+<label>ID Number</label>
+<input type="text" id="idnum" placeholder="12345678">
+<button class="btn" onclick="next()">Continue</button>
+</div>
+</div>
+<script>
+function next(){
+  localStorage.setItem('name',document.getElementById('name').value);
+  localStorage.setItem('phone',document.getElementById('phone').value);
+  localStorage.setItem('idnum',document.getElementById('idnum').value);
+  window.location='step3.html';
+}
+</script>
+</body></html>
