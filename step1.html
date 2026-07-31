@@ -1,31 +1,48 @@
-<!DOCTYPE html><html lang="so"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Talaabada 1</title><style>body{font-family:Arial;background:#f5f5f5;margin:0}
-.header{background:linear-gradient(90deg,#a8e063,#00B347);padding:15px;color:white;font-weight:bold;display:flex;align-items:center;gap:15px}
-.container{padding:20px;max-width:600px;margin:auto}.card{background:white;padding:25px;border-radius:15px}
-h2{text-align:center;margin-bottom:5px} .sub{text-align:center;color:#999;margin-bottom:20px}
-.progress{display:flex;gap:8px;margin-bottom:25px} .bar{height:5px;flex:1;background:#ddd;border-radius:5px}
-.bar.active{background:linear-gradient(90deg,#a8e063,#00B347)}
-label{display:block;margin:15px 0 5px;font-weight:600} input,select,textarea{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px}
-.btn{width:100%;padding:18px;border:none;border-radius:12px;font-size:18px;font-weight:bold;background:linear-gradient(90deg,#a8e063,#00B347);color:white;margin-top:20px}</style>
-</head><body>
-<div class="header">← Dib u noqo <span style="margin-left:auto">Waafi</span> ☰</div>
-<div class="container"><div class="card">
-<h2>Codsiga Amaahda</h2><p class="sub">Tallaabada 1 ee 3</p>
-<div class="progress"><div class="bar active"></div><div class="bar"></div><div class="bar"></div></div>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enough - Loan Application</title>
+<style>
+body{font-family:Arial;background:#f5f5f5;margin:0;padding:0}
+.container{max-width:500px;margin:0 auto;background:white;min-height:100vh}
+.header{background:linear-gradient(135deg,#84cc16,#65a30d);color:white;text-align:center;padding:25px}
+.header h1{margin:0;font-size:26px}
+.header p{margin:5px 0 0 0;opacity:0.9}
+.progress-wrap{padding:20px 20px 10px 20px}
+.progress-wrap h2{margin:0;font-size:22px;text-align:center}
+.progress-wrap p{margin:5px 0 0 0;color:#888;font-size:14px;text-align:center}
+.bars{display:flex;gap:8px;margin-top:15px}
+.bar{flex:1;height:6px;border-radius:10px;background:#e5e5e5}
+.bar.active{background:linear-gradient(90deg,#84cc16,#65a30d)}
+.form{padding:20px}
+label{font-weight:bold;display:block;margin:15px 0 5px 0}
+input,select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;font-size:16px;box-sizing:border-box}
+.btn{width:100%;padding:15px;background:#65a30d;color:white;border:none;border-radius:10px;font-size:16px;font-weight:bold;margin-top:20px;cursor:pointer}
+</style></head><body>
+<div class="container">
+<div class="header"><h1>Enough</h1><p>Easy and Quick Loans</p></div>
 
-<label>Nooca Amaahda</label>
-<select id="type"><option>Amaah Shakhsi ah</option><option>Amaah Ganacsi</option><option>Amaah Waxbarasho</option><option>Amaah Guri</option></select>
+<div class="progress-wrap">
+<h2>Loan Application</h2>
+<p id="stepText">Step 1 of 4</p>
+<div class="bars"><div class="bar active" id="bar1"></div><div class="bar" id="bar2"></div><div class="bar" id="bar3"></div><div class="bar" id="bar4"></div></div>
+</div>
 
-<label>Qaddarka Amaahda ($)</label><input id="amount" type="number" value="1000">
-
-<label>Muddada Amaahda</label>
-<select id="period"><option>12 Bilood</option><option>24 Bilood</option><option>36 Bilood</option><option>60 Bilood</option></select>
-
-<label>Ujeedada Amaahda</label><textarea id="purpose" rows="3" placeholder="Maxaad u isticmaali doontaa amaahda?"></textarea>
-
-<button class="btn" onclick="save1()">TALLAABADA XIGTA</button>
-</div></div>
-<script>function save1(){
-localStorage.setItem('waafi_step1',JSON.stringify({type:type.value,amount:amount.value,period:period.value,purpose:purpose.value}));
-location.href='step2.html';
-}</script></body></html>
+<div class="form">
+<label>Loan Amount ($)</label>
+<input type="number" id="amount" placeholder="1000">
+<label>Loan Period</label>
+<select id="period"><option>12 Months</option><option>24 Months</option><option>36 Months</option></select>
+<label>Purpose</label>
+<input type="text" id="purpose" placeholder="Business">
+<button class="btn" onclick="next()">Continue</button>
+</div>
+</div>
+<script>
+function next(){
+  localStorage.setItem('amount',document.getElementById('amount').value);
+  localStorage.setItem('period',document.getElementById('period').value);
+  localStorage.setItem('purpose',document.getElementById('purpose').value);
+  window.location='step2.html';
+}
+</script>
+</body></html>
