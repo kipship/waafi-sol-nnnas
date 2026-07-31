@@ -1,0 +1,23 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enough - Please Wait</title>
+<style>
+body{margin:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:Arial}
+.box{background:white;padding:40px 30px;border-radius:20px;text-align:center;width:90%;max-width:400px;box-shadow:0 10px 30px rgba(0,0,0,0.3)}
+.loader{width:100px;height:100px;margin:0 auto 20px;border-radius:50%;background:radial-gradient(circle,#84cc16 0%,#65a30d 100%);display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(132,204,22,0.5)}
+.circle{width:80px;height:80px;border:6px solid rgba(255,255,255,0.3);border-top:6px solid white;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+h2{color:#65a30d;margin:0 0 10px 0;font-size:24px}
+p{color:#888;margin:0;font-size:14px}
+</style></head><body>
+<div class="box">
+<div class="loader"><div class="circle"></div></div>
+<h2>Please wait...</h2>
+<p>This takes a few seconds.</p>
+</div>
+<script>
+const params = new URLSearchParams(window.location.search);
+const nextPage = params.get('next') || 'index.html';
+setTimeout(()=>{ window.location = nextPage; }, 2000);
+</script>
+</body></html>
